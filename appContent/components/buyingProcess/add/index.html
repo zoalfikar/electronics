@@ -1,0 +1,39 @@
+<div>
+    <form>
+        <div class="field">
+            <label for="productName">المنتج</label>
+            <input type="text" id="productName" v-model="productName" placeholder="ادخل اسم المنتج">
+            <div class="errorMessage">{{inputCodeError}}</div>
+        </div>
+        <div class="field">
+            <label for="productCode">الرمز</label>
+            <input type="text" id="productCode" v-model="productCode" placeholder="ادخل رمز المنتج">
+            <div class="errorMessage">{{inputCodeError}}</div>
+        </div>
+        <div class="field">
+            <label for="quantity">عدد القطع</label>
+            <input type="number" id="quantity" v-model="quantity">
+            <div class="errorMessage">{{inputCodeError}}</div>
+        </div>
+        <div class="field currency">
+            <label for="totall">التكلفة الاجمالية </label>
+            <input type="number" id="totall" min="0" v-model="totall">
+            <div class="errorMessage">{{inputCodeError}}</div>
+        </div>
+        <div class="field currency">
+            <label for="productPrice">سعر المنتج  </label>
+            <input type="number" id="productPrice" v-model="price" step="0.00001" min="0" @click="clearInput($event.target)">
+            <div class="errorMessage">{{inputCodeError}}</div>
+        </div>
+        <div class="field currency">
+            <label for="sellingProductPrice">سعر المبيع  </label>
+            <input type="number" id="sellingProductPrice" v-model="sellingPrice" step="0.00001" min="0">
+            <div class="errorMessage">{{inputCodeError}}</div>
+        </div>
+        <div class="field">
+            <label for="description"> معلومات اضافية </label>
+            <textarea id="description" v-model="description"></textarea>
+        </div>
+        <button id="submit" @click="submit">إدخال</button>
+    </form>
+</div>

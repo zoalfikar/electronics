@@ -1,0 +1,11 @@
+{
+    "Initialized": "1",
+    "mysql": {
+        "mysqlServerPath": "C:/Program Files/{subPath}",
+        "subPath": "MySQL/MySQL Server {version}/bin/mysqladmin",
+        "version": "8.0",
+        "user": "root",
+        "password": ""
+    },
+    "customers": ["BFEBFBFF00020655"]
+}

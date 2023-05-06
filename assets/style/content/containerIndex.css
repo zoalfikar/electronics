@@ -1,0 +1,118 @@
+/* .container-index */
+
+.container-index {
+    box-sizing: border-box;
+    padding: 10px;
+    display: block;
+    height: 100%;
+}
+
+.container-index .container-index-element {
+    width: 100%;
+}
+
+.container-index .container-input {
+    height: 30%;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.container-index .input-element {
+    padding: 20px;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.container-index .input-element input {
+    padding-right: 10px;
+    width: 70%;
+}
+
+.container-index .input-element label {
+    width: 25%;
+}
+
+.container-index .price-input span {
+    position: absolute;
+    left: 30px;
+    padding-top: 3px;
+    color: rgb(119, 119, 119);
+}
+
+.container-index .price-input input::-webkit-inner-spin-button {
+    display: none;
+}
+
+.container-index .input-element p {
+    position: absolute;
+    background-color: red;
+    color: white;
+    bottom: -24px;
+    right: 32%;
+    width: calc( 61% + 3px);
+}
+
+.container-index .options-input {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.container-index .options-input .tottal {
+    width: 60%
+}
+
+.container-index .options-input .tottal span {
+    float: left;
+}
+
+.container-index .options-input button {
+    background-color: black;
+    color: white;
+}
+
+.container-index .container-info {
+    margin-top: 30px;
+    height: 50%;
+    border: 2px solid rgb(170, 147, 147);
+    display: flex;
+    flex-flow: row wrap;
+    background-color: rgb(212, 212, 184);
+    padding-right: 7%;
+    overflow: auto;
+}
+
+.container-index .container-info div {
+    font-size: x-large;
+    flex: 50%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 30px;
+}
+
+.container-index .container-info div * {
+    flex: unset;
+}
+
+.container-index .container-info div *:first-child {
+    width: 35%;
+}
+
+.container-index .container-option {
+    margin-top: 30px;
+    display: block;
+    height: 40px;
+    font-size: x-large;
+}
+
+.container-index .container-option button {
+    width: 100%;
+    background-color: rgba(73, 21, 0, 0.979);
+    color: white;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

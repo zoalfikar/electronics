@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="assets/style/style.css">
+    <link rel="stylesheet" href="assets/style/bootstrap//style.css">
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="index-options">
+            <button @click="filter = !filter">
+                {{filter ? "قفل الفلتر" : "فلتر"}}
+            </button>
+            <button @click="alter = !alter">
+                {{alter ? "الغاء التعديل" : "تعديل"}}
+            </button>
+        </div>
+        <div class="title">
+            <h1>{{title}}</h1>
+        </div>
+        <div class="content">
+            <router-view></router-view>
+        </div>
+        <div class="navigation">
+            <div class="navigation-item">
+                <button id="selling-index" @click="goto('/selling-index' , 'الرئيسية')">الرئيسية</button>
+
+            </div>
+            <div class="navigation-item">
+                <button id="add-buying-process" @click="goto('/buying-process' , 'إضافة شراء')">عملية شراء </button>
+
+            </div>
+            <div class="navigation-item">
+                <button id="all-buying-process" @click="goto('/all-buying-process',' جدول الشراء ')"> عرض جميع عمليات الشراء </button>
+
+            </div>
+            <div class="navigation-item">
+                <button id="all-products" @click="goto('/all-products',' المنتجات المتاحة ')">  عرض المنتجات </button>
+
+            </div>
+            <div class="navigation-item">
+                <button id="all-products" @click="goto('/all-selling-process','  جدول المبيع')">  عرض جميع عمليات البيع </button>
+            </div>
+            <div class="navigation-item">
+                <button id="all-products" @click="goto('/add-debt','   إضافة دين')">    إضافة دين جديد </button>
+            </div>
+            <div class="navigation-item">
+                <button id="all-products" @click="goto('/all-debt','  جدول الديون')">  عرض جميع الديون </button>
+            </div>
+            <div class="navigation-item">
+                <button id="all-products" @click="goto('/add-expenses','   إضافة مصروف')"> إضافة مصروف </button>
+            </div>
+            <div class="navigation-item">
+                <button id="all-products" @click="goto('/all-expenses','  جدول المصاريف')">  عرض جميع المصاريف </button>
+            </div>
+            <div class="navigation-item">
+                <button id="all-products" @click="goto('/inventory','  الجرد ')">  جرد </button>
+            </div>
+            <div class="navigation-item">
+                <button id="all-products" @click="goto('/inventories','  ارشيف الجرد ')">  عرض جميع عمليات الجرد </button>
+            </div>
+        </div>
+    </div>
+    <script src="assets/libraries/bootstrap.js"></script>
+    <script src="assets/libraries/sweetalert.js"></script>
+    <script src="assets/libraries/jquery.js"></script>
+    <script src="assets/libraries/vue.js"></script>
+    <script src="assets/libraries/vue-router.js"></script>
+    <script src="appContent/index.mjs" type="module">
+    </script>
+</body>
+
+</html>

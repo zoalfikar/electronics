@@ -1,0 +1,75 @@
+<div>
+    <table class="table table-striped ">
+        <thead class="table-dark">
+            <tr>
+                <th :style="`display :${ alter ? 'table-cell' :'none'}; background-color: ${alter?'red':'none'}` ">حذف الدين</th>
+                <th id="name">
+                    {{!filter ? 'الاسم' : ''}}
+                    <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="text" v-model="name" placeholder="الاسم">
+                </th>
+                <th id="code">
+                    {{!filter ? 'الهاتف' : ''}}
+                    <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="number" v-model="phone" placeholder="الهاتف">
+                </th>
+                <th :style="`background-color: ${alter?'red':'none'} `"> المبلغ</th>
+                <th>الوصف</th>
+                <th>تاريخ الادخال</th>
+                <th>تاريخ التعديل</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr :id="process.id" v-for="process in debt" :key="process.id">
+                <td :style="`display :${ alter ? 'table-cell' :'none'}`">
+                    <button style="margin-left:5px" class="btn btn-danger" @click="deleteProcessConfirm(process.id)">
+                        حذف
+                    </button>
+                    <button :style="`display:${process.paid ? 'none;': 'inline;'} `" class="btn btn-primary" @click="paidProcessConfirm(process.id)">
+                        سداد الدين
+                    </button>
+                    <button :style="`display:${process.paid ? 'inline;': 'none;'} `" class="btn btn-secondary" @click="notPaidaidProcessConfirm(process.id)">
+                        لم يسدد 
+                    </button>
+                </td>
+                <td class="ntd" :id="process.id+'ntd'" @click="alter ? 
+                    function(e){
+                        var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement
+                        setCellToUpdate(e,t)
+                    }($event)
+                    : null ">
+                    {{temoraryCellId == process.id+'ntd' ? '': process.name}}
+                    <input class="input" style="display: none ; width:100% !important" type="text" :placeholder="`${process.name}`">
+                </td>
+                <td class="ptd" :id="process.id+'ptd'" @click="alter ? 
+                function(e){
+                    var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement
+                    setCellToUpdate(e,t)
+                }($event)
+                : null ">
+                    {{temoraryCellId == process.id+'ptd' ? '': process.phoneNumber}}
+                    <input class="input" style="display: none ; width:100% !important" type="number" :placeholder="`${process.phoneNumber}`">
+                </td>
+                <td class="ttd" :id="process.id+'ttd'" @click="alter ? 
+                function(e){
+                    var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement
+                    setCellToUpdate(e,t)
+                }($event)
+                : null ">
+                    {{temoraryCellId == process.id+'ttd' ? '': process.totall }}
+                    <input class="input" style="display: none ; width:100% !important" type="number" :placeholder="process.totall"> <span class="currency">ل.س</span>
+                </td>
+                <td class="dtd" :id="process.id+'dtd'" @click="alter ? 
+                function(e){
+                    var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement
+                    setCellToUpdate(e,t)
+                }($event)
+                : null ">
+                    {{temoraryCellId == process.id+'dtd' ? '': process.description}}
+                    <input class="input" style="display: none ; width:100% !important" type="text" :placeholder="`${process.description}`">
+
+                </td>
+                <td>{{process.created_at}}</td>
+                <td>{{process.updated_at}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

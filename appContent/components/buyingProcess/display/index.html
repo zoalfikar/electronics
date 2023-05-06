@@ -1,0 +1,66 @@
+<div>
+    <table class="table table-striped ">
+        <thead class="table-dark">
+            <tr>
+                <th :style="`display :${ alter ? 'table-cell' :'none'}; background-color: ${alter?'red':'none'}` ">حذف فاتورة</th>
+                <th id="name">
+                    {{!filter ? 'المنتج' : ''}}
+                    <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="text" v-model="name" placeholder="المنتج">
+                </th>
+                <th id="code">
+                    {{!filter ? 'الرمز' : ''}}
+                    <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="text" v-model="code" placeholder="الكود">
+                </th>
+                <th :style="`background-color: ${alter?'red':'none'} `">الكمية</th>
+                <th :style="`background-color: ${alter?'red':'none'} `">سعر الجملة</th>
+                <th>سعر الواحدة</th>
+                <th>سعر المبيع</th>
+                <th>الوصف</th>
+                <th>تاريخ الادخال</th>
+                <th>تاريخ التعديل</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr :id="process.id" v-for="process in buyingProcess" :key="process.id">
+                <td :style="`display :${ alter ? 'table-cell' :'none'}`">
+                    <button class="btn btn-danger" @click="deleteProcessConfirm(process.id)">
+                        حذف
+                    </button>
+                </td>
+                <td class="ntd" :id="process.id+'ntd'" @click="alter ? 
+                    function(e){
+                        var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement
+                        setCellToUpdate(e,t)
+                    }($event)
+                    : null ">
+                    {{temoraryCellId == process.id+'ntd' ? '': process.name}}
+                    <input class="input" style="display: none ; width:100% !important" type="text" :placeholder="`${process.name}`">
+                </td>
+                <td>{{process.code }}</td>
+                <td class="qtd" :id="process.id+'qtd'" @click="alter ? 
+                function(e){
+                    var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement
+                    setCellToUpdate(e,t)
+                }($event)
+                : null ">
+                    {{temoraryCellId == process.id+'qtd' ? '': process.quantity}}
+                    <input class="input" style="display: none ; width:100% !important" type="number" :placeholder="`${process.quantity}`">
+                </td>
+                <td class="ttd" :id="process.id+'ttd'" @click="alter ? 
+                function(e){
+                    var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement
+                    setCellToUpdate(e,t)
+                }($event)
+                : null ">
+                    {{temoraryCellId == process.id+'ttd' ? '': process.totall }}
+                    <input class="input" style="display: none ; width:100% !important" type="number" :placeholder="process.totall"> <span class="currency">ل.س</span>
+                </td>
+                <td>{{process.price}} <span class="currency">ل.س</span></td>
+                <td>{{process.sellingPrice}} <span class="currency">ل.س</span></td>
+                <td>{{process.description}}</td>
+                <td>{{process.created_at}}</td>
+                <td>{{process.updated_at}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,18 @@
+<div>
+    <form>
+        <div class="field">
+            <label for="Name">الاسم</label>
+            <input type="text" id="Name" v-model="name">
+        </div>
+        <div class="field currency">
+            <label for="totall"> المبلغ </label>
+            <input type="number" id="totall" min="0" v-model="totall">
+            <div class="errorMessage">{{inputCodeError}}</div>
+        </div>
+        <div class="field">
+            <label for="description"> معلومات اضافية </label>
+            <textarea id="description" v-model="description"></textarea>
+        </div>
+        <button id="submit" @click="submit">إدخال</button>
+    </form>
+</div>

@@ -1,0 +1,151 @@
+@import "./content/containerIndex.css";
+@import "./content/products.css";
+:root {
+    --form-width: 100%;
+    --input-form-width: 40%;
+    --form-padding: 20px;
+    --form-flex-gap: calc(var(--form-width) - var(--input-form-width)*2 - var(--form-padding)*2)
+}
+
+[v-cloak] {
+    display: none;
+}
+
+.title {
+    margin-top: 10px;
+}
+
+.index-options {
+    height: 30px;
+    position: absolute;
+    top: 20px;
+    z-index: 10;
+    background-color: blue;
+}
+
+.title h1 {
+    color: rgb(94, 77, 77);
+    width: 20%;
+    margin: auto;
+    text-align: center;
+    background-color: rgb(69, 232, 238);
+    padding-inline-start: 5px;
+    border-radius: 20px;
+}
+
+.navigation {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 10%;
+    width: 30%;
+    height: 85%;
+    left: 0;
+    overflow: scroll;
+    padding: 30px;
+    gap: 20px;
+}
+
+.navigation button {
+    width: 100%;
+    height: 50px;
+}
+
+.navigation button.active {
+    width: 100%;
+    height: 50px;
+    background-color: black;
+    color: aliceblue;
+}
+
+.content {
+    background-color: rgb(240, 240, 240);
+    position: absolute;
+    top: 10%;
+    width: 70%;
+    height: 85%;
+    border: 2px solid black;
+    overflow: auto;
+}
+
+
+/* form */
+
+textarea {
+    resize: none !important;
+    height: 50px;
+}
+
+form {
+    width: var(--form-width);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--form-flex-gap);
+    padding: var(--form-padding);
+    padding-bottom: 0;
+}
+
+form .field {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    min-height: 80px;
+    width: calc( var(--input-form-width) - 20px);
+    background-color: rgb(204, 204, 204);
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+form .field input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 35px;
+    border: unset;
+    margin-bottom: 10px;
+}
+
+form .field input[type="number"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+form .currency::after {
+    display: flex;
+    align-items: center;
+    content: "ل.س";
+    width: 40;
+    height: 35px;
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    color: rgb(99, 93, 93)
+}
+
+button#submit {
+    height: 40px;
+    width: 70px;
+    color: white;
+    background-color: rgb(51, 12, 12);
+}
+
+.errorMessage {
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 6px;
+    background-color: red;
+    color: white;
+    width: 94%;
+}
+
+
+/* display */
+
+table td,
+table th {
+    white-space: nowrap;
+    text-align: center;
+    min-width: 60px !important;
+}

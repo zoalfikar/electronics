@@ -1,0 +1,68 @@
+<div class="all-products-index">
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th id="name">
+                    {{!filter ? 'المنتج' : ''}}
+                    <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="text" v-model="name" placeholder="المنتج">
+                </th>
+                <th :style="`background-color: ${alter?'red':'none'} `" id="code">
+                    {{!filter ? 'الرمز' : ''}}
+                    <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="text" v-model="code" placeholder="الكود">
+                </th>
+                <th>الكمية</th>
+                <th>سعر الواحدة</th>
+                <th :style="`background-color: ${alter?'red':'none'} `">سعر المبيع</th>
+                <th>الوصف</th>
+                <th>تاريخ الادخال</th>
+                <th>تاريخ التعديل</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr :id="product.id" v-for="product in products" :key="product.id">
+                <td class="ntd" :id="product.id+'ntd'" @click="alter ? 
+                function(e){
+                    var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement
+                    setCellToUpdate(e,t)
+                }($event)
+                : null ">
+                    {{temoraryCellId == product.id+'ntd' ? '': product.name}}
+                    <input class="input" style="display: none ; width:100% !important" type="text" :placeholder="`${product.name}`">
+                </td>
+                <td class="ctd" :id="product.id+'ctd'" @click="alter ? 
+                function(e){
+                    var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement
+                    setCellToUpdate(e,t)
+                }($event)
+                : null ">
+                    {{temoraryCellId == product.id+'ctd' ? '': product.code}}
+                    <input class="input" style="display: none ; width:100% !important" type="text" :placeholder="`${product.code}`">
+
+                </td>
+                <td>{{product.quantity}}</td>
+                <td>{{product.price}} <span class="currency">ل.س</span></td>
+                <td class="std" :id="product.id+'std'" @click="alter ? 
+                function(e){
+                    var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement
+                    setCellToUpdate(e,t)
+                }($event)
+                : null ">
+                    {{temoraryCellId == product.id+'std' ? '': product.sellingPrice }}
+                    <input class="input" style="display: none ; width:100% !important" type="number" :placeholder="product.sellingPrice"> <span class="currency">ل.س</span>
+                </td>
+                <td class="dtd" :id="product.id+'dtd'" @click="alter ? 
+                function(e){
+                    var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement
+                    setCellToUpdate(e,t)
+                }($event)
+                : null ">
+                    {{temoraryCellId == product.id+'dtd' ? '': product.description}}
+                    <input class="input" style="display: none ; width:100% !important" type="text" :placeholder="`${product.description}`">
+
+                </td>
+                <td>{{product.created_at}}</td>
+                <td>{{product.updated_at}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

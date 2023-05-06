@@ -1,0 +1,30 @@
+<div>
+    <table class="table table-striped ">
+        <thead class="table-dark">
+            <tr>
+                <th :style="`display :${ alter ? 'table-cell' :'none'}; background-color: ${alter?'red':'none'}` ">حذف هذا الجرد</th>
+                <th>المبيع</th>
+                <th>التكاليف</th>
+                <th>الديون</th>
+                <th>المصاريف</th>
+                <th>الارباح</th>
+                <th>تاريخ الادخال</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="process in inventories" :key="process.id">
+                <td :style="`display :${ alter ? 'table-cell' :'none'}`">
+                    <button style="margin-left:5px" class="btn btn-danger" @click="deleteProcessConfirm(process.id)">
+                        حذف
+                    </button>
+                </td>
+                <td>{{process.sells}}</td>
+                <td>{{process.costs}}</td>
+                <td>{{process.debt}}</td>
+                <td>{{process.expenses}}</td>
+                <td>{{process.profit}}</td>
+                <td>{{process.created_at}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

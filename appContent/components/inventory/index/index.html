@@ -1,0 +1,58 @@
+<div class="container-index">
+    <div>
+        <p>سوف يتم ارشفة جميع البيانات الغير مؤرشفة حتى الان</p>
+        <p> يمكن حساب التكاليف والربح حسب الوقت الذي تريده لكن لن يتم تعليم البيانات ك بيانات مؤرشفة </p>
+        <input type="datetime-local" id="date-input" v-model="date">
+        <button style="margin:40px ;" @click="pringAll(date)">حسب التاريخ</button>
+        <button :disabled="selectMode?false:true" @click="pringAll(null)">ارشفة عادية </button>
+    </div>
+
+    <div class="container-index-element container-info info">
+        <div>
+            <div class="label">التكاليف</div>
+            <div class="name">{{costs + " ل.س" }} </div>
+        </div>
+        <div>
+            <div class="label">المبيع </div>
+            <div class="quantity">{{sells + " ل.س" }}</div>
+        </div>
+        <div>
+            <div class="label"> الديون</div>
+            <div class="price">{{debt + " ل.س" }}</div>
+        </div>
+        <div>
+            <div class="label"> المصاريف</div>
+            <div class="description">{{ expenses + " ل.س" }}
+            </div>
+        </div>
+        <div :style="`
+        background-color:${(profit < 0 )? 'red !important ;' : 'none !important;'}
+        color:${(profit < 0 )? 'white !important' : 'black !important'}
+        `">
+            <div class="label"> الربح</div>
+            <div class="description">{{ profit + " ل.س" }}
+            </div>
+        </div>
+    </div>
+    <div style="display: flex;" class="display-options">
+        <div class="description">
+            <div class="label"> بدون مصاريف</div>
+            <input type="checkbox" v-model="noExpenses" true-value="yes" false-value="no" />
+        </div>
+        <div class="description">
+            <div class="label"> بدون ديون</div>
+            <input type="checkbox" v-model="noDebt" true-value="yes" false-value="no" />
+        </div>
+        <div class="description">
+            <div class="label"> بدون تكاليف شراء</div>
+            <input type="checkbox" v-model="noCost" true-value="yes" false-value="no" />
+        </div>
+
+    </div>
+    <div class="container-index-element container-option">
+        <button :disabled="selectMode?false:true" @click="archivConfirm()" id="sell-production" class="sell-production">
+            {{selectMode? ' إضافة الى الارشيف' : "تم الاضافة بشكل تلقائي"}}
+        </button>
+    </div>
+
+</div>
