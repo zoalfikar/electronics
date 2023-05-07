@@ -128,7 +128,7 @@ const comp = {
             this.paidProcess(id)
         },
         paidProcess: function(id) {
-            controllers.expensesAndDebts.updateDebt(id, { paid: 1 }).then(
+            controllers.expensesAndDebts.updateDebt(id, { paid: 1, clacualted: 1 }).then(
                 (v) => {
                     this.debt.find((p) => p.id = id).paid = 1;
                     swal('تم التعديل')
@@ -145,7 +145,7 @@ const comp = {
             this.notPaidProcess(id)
         },
         notPaidProcess: function(id) {
-            controllers.expensesAndDebts.updateDebt(id, { paid: 0 }).then(
+            controllers.expensesAndDebts.updateDebt(id, { paid: 0, clacualted: 0 }).then(
                 (v) => {
                     this.debt.find((p) => p.id).paid = 0;
                     swal('تم التعديل')

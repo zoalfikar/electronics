@@ -13,6 +13,7 @@
                 </th>
                 <th :style="`background-color: ${alter?'red':'none'} `"> المبلغ</th>
                 <th>الوصف</th>
+                <th>الحالة</th>
                 <th>تاريخ الادخال</th>
                 <th>تاريخ التعديل</th>
             </tr>
@@ -66,6 +67,9 @@
                     {{temoraryCellId == process.id+'dtd' ? '': process.description}}
                     <input class="input" style="display: none ; width:100% !important" type="text" :placeholder="`${process.description}`">
 
+                </td>
+                <td :style="`${process.paid?'background:rgba(0,0,0,0.4) ; color:white':'background-color:none ; color:none'}`">
+                    {{process.paid ? 'تم التسديد' : 'لم يسدد بعد'}}
                 </td>
                 <td>{{process.created_at}}</td>
                 <td>{{process.updated_at}}</td>

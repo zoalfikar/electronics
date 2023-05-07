@@ -10,17 +10,22 @@ module.exports.addInventories = (values) => {
 }
 module.exports.claculat = (date) => {
     var conditions = {}
+    var conditionsDebt = {}
     if (date) {
         conditions.created_at = { v: date, o: '>=' }
+        conditionsDebt.created_at = { v: date, o: '>=' }
     } else {
         conditions.clacualted = { v: 0, o: '=' }
+        conditionsDebt.clacualted = { v: 0, o: '=' }
+
     }
+    conditionsDebt.paid = { v: 0, o: '=' }
     return new Promise((resolve, reject) => {
         controller.columnSumWhere('buying_payments', 'totall', conditions, (rb) => {
             var costs = rb[0].sum;
             controller.columnSumWhere('selling_payments', 'totall', conditions, (rs) => {
                 var sells = rs[0].sum
-                controller.columnSumWhere('debt', 'totall', conditions, (rc) => {
+                controller.columnSumWhere('debt', 'totall', conditionsDebt, (rc) => {
                     var debt = rc[0].sum
                     controller.columnSumWhere('expenses', 'totall', conditions, (re) => {
                         var expenses = re[0].sum;

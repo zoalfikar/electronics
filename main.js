@@ -3,9 +3,15 @@ const path = require('path')
 const fs = require("fs");
 const { ipcMain } = require('electron');
 const customerChecking = require('./customerChecking')
+const mysqlServre = require('./runMysqlServer')
 var homaPagePath = '';
 let win;
 fs.readFile(path.join(__dirname, 'electronics.json'), async(error, data) => {
+    var mysqlServerActive = await mysqlServre.run()
+    if (!mysqlServerActive) mysqlServerActive = await mysqlServre.run2()
+    if (!mysqlServerActive) console.log("start it manually");
+
+
     let customer = await customerChecking.check()
     if (!customer) {
         console.log("not customer");
@@ -17,6 +23,8 @@ fs.readFile(path.join(__dirname, 'electronics.json'), async(error, data) => {
         throw error;
     }
     const info = JSON.parse(data);
+
+    let devMode = parseInt(info.devMode)
 
     if (info.Initialized == "1") {
         homaPagePath = 'index.html';
@@ -33,10 +41,14 @@ fs.readFile(path.join(__dirname, 'electronics.json'), async(error, data) => {
             minHeight: 720,
             webPreferences: {
                 nodeIntegration: true,
-                preload: path.join(__dirname, 'preload.js')
+                preload: path.join(__dirname, 'preload.js'),
+                devTools: devMode ? true : false,
+
             },
         })
-        win.webContents.openDevTools()
+        if (devMode) {
+            win.webContents.openDevTools()
+        }
         win.loadFile(homaPagePath)
 
     }
