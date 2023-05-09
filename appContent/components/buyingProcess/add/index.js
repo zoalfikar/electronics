@@ -39,7 +39,7 @@ const comp = {
                     sellingPrice,
                     description, swal)
             }
-            if (productName && productCode && (quantity >= 0) && (totall >= 0) && (price >= 0) && sellingPrice)
+            if (productName && productCode && ((quantity >= 0) && (quantity !== null)) && ((totall >= 0) && (totall !== null)) && ((price >= 0) && (price !== null)) && sellingPrice)
                 funcInsert()
 
             else $('.errorMessage').html('مطلوب');

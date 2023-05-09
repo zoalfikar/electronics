@@ -30,10 +30,10 @@ module.exports.insertBuyingProcess = function(nameE, codeE, quantityE, totallE, 
             }).then((re) => {
                 var opt;
                 var product = re[0];
-                var cond = String(product.name) == String(sellingPriceE);
+                var cond = String(product.sellingPrice) == String(sellingPriceE);
                 if (cond) {
                     opt = {
-                        save: "التعديلات حفظ",
+                        save: "حفظ",
                     }
                 } else {
                     opt = {
@@ -57,17 +57,20 @@ module.exports.insertBuyingProcess = function(nameE, codeE, quantityE, totallE, 
                             case "save":
                                 updateP(product.id, { name: nameE, description: descriptionE, price: priceE, sellingPrice: sellingPriceE, quantity: parseInt(product.quantity) + parseInt(quantityE) })
                                 controller.mysqlConect(sql, function(r) {
-                                        console.log("data inserted");
-                                    })
-                                    // swal("تم", "تم ادخال البيانات بشكل صحيح", "success");
+                                    console.log("data inserted");
+                                })
+                                swal("تم", "تم ادخال البيانات بشكل صحيح", "success");
                                 break;
-
-                            default:
-                                updateP(product.id, { price: priceE, quantity: parseInt(product.quantity) + parseInt(quantityE) })
+                            case "saveOld":
+                                updateP(product.id, { quantity: parseInt(product.quantity) + parseInt(quantityE) })
                                 controller.mysqlConect(sql, function(r) {
-                                        console.log("data inserted");
-                                    })
-                                    // swal("تم", "تم   الابقاء على القيمة القديمة", "success");
+                                    console.log("data inserted");
+                                })
+                                swal("تم", "تم   الابقاء على القيمة القديمة", "success");
+                                break;
+                            default:
+                                return 0;
+
                         }
                     });
             })
@@ -104,7 +107,7 @@ module.exports.deleteProcessId = (id) => {
                                 }
                             )
                         } else {
-                            resolve({ q: quantity })
+                            resolve({ q: quantity, code: process.code })
                         }
 
                     })
@@ -115,9 +118,9 @@ module.exports.deleteProcessId = (id) => {
 }
 module.exports.asynicUpdateProcess = (id, QP) => {
     return new Promise((resolve, reject) => {
-        if (QP.quantity) {
+        if ((QP.quantity !== null) && (QP.quantity >= 0)) {
             if (!QP.code) {
-                throw ('code is requir when updating code')
+                throw ('code is requir when updating quantity')
 
             }
             this.selectProductCode(QP.code, (p) => {
@@ -136,11 +139,28 @@ module.exports.asynicUpdateProcess = (id, QP) => {
 
             })
         } else {
-            controller.update("buying_payments", QP, { id: { o: '=', v: id } },
-                (r) => {
-                    console.log("data updated");
-                    resolve(r)
+            if ((QP.price !== null) && (QP.changeProduct)) {
+                if (!QP.code) {
+                    throw ('code is requir when updating product')
+
+                }
+                this.updateProductByCode(QP.code, { price: QP.price }, (res) => {
+                    delete QP.changeProduct
+                    controller.update("buying_payments", QP, { id: { o: '=', v: id } }, (r) => {
+                        console.log("data updated");
+                        resolve(r)
+                    })
                 })
+
+
+            } else {
+                controller.update("buying_payments", QP, { id: { o: '=', v: id } },
+                    (r) => {
+                        console.log("data updated");
+                        resolve(r)
+                    })
+            }
+
         }
     })
 }
@@ -156,6 +176,10 @@ module.exports.updateProduct = (id, QP) => {
 module.exports.updateProductId = (id, QP, func) => {
 
     controller.update("products", QP, { id: { o: '=', v: id } }, func)
+}
+module.exports.updateProductByCode = (code, QP, func) => {
+
+    controller.update("products", QP, { code: { o: '=', v: code } }, func)
 }
 module.exports.deleteProductId = (id, func) => {
     controller.delet("products", { id: { o: '=', v: id } }, func)

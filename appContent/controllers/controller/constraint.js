@@ -1,10 +1,19 @@
 var mysql = require('mysql');
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "electronics"
-});
+const electronics = require('../../../electronics')
+var info;
+var con;
+
+async function init() {
+    info = await electronics.readConfig()
+    con = mysql.createConnection({
+        host: "localhost",
+        user: await info.mysql.user,
+        password: info.mysql.password,
+        database: "electronics"
+    });
+}
+init();
+
 module.exports.uniqeColumn = (tabel, column, value, funcTrue, funcFail) => {
     var sql = `
 select * from ${tabel} where  ${column} = ${isNaN(value) ? "\"" +value +"\""  : value}

@@ -2,30 +2,33 @@
     <div>
         <p>سوف يتم ارشفة جميع البيانات الغير مؤرشفة حتى الان</p>
         <p> يمكن حساب التكاليف والربح حسب الوقت الذي تريده لكن لن يتم تعليم البيانات ك بيانات مؤرشفة </p>
-        <input type="datetime-local" id="date-input" v-model="date">
-        <button style="margin:40px ;" @click="pringAll(date)">حسب التاريخ</button>
-        <button :disabled="selectMode?false:true" @click="pringAll(null)">ارشفة عادية </button>
+        <label style="margin: 10px;" for="date-input-from">من تاريخ</label>
+        <input type="datetime-local" id="date-input-from" v-model="date">
+        <label style="margin: 10px;" for="date-input-to"> الى تاريخ (حقل اختياري)</label>
+        <input type="datetime-local" id="date-input-to" v-model="date2">
+        <button style="margin:40px; margin-top: 10px ;margin-bottom: 10px ;" @click="pringAll(date ,date2)">حسب التاريخ</button>
+        <button :disabled="selectMode?false:true" @click="pringAll(null)"> جرد نظامي </button>
     </div>
 
     <div class="container-index-element container-info info">
-        <div>
+        <div class="medium ">
             <div class="label">التكاليف</div>
             <div class="name">{{costs + " ل.س" }} </div>
         </div>
-        <div>
+        <div class="medium ">
             <div class="label">المبيع </div>
             <div class="quantity">{{sells + " ل.س" }}</div>
         </div>
-        <div>
+        <div class="medium ">
             <div class="label"> الديون</div>
             <div class="price">{{debt + " ل.س" }}</div>
         </div>
-        <div>
+        <div class="medium ">
             <div class="label"> المصاريف</div>
             <div class="description">{{ expenses + " ل.س" }}
             </div>
         </div>
-        <div :style="`
+        <div class="medium " :style="`
         background-color:${(profit < 0 )? 'red !important ;' : 'none !important;'}
         color:${(profit < 0 )? 'white !important' : 'black !important'}
         `">
@@ -34,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div style="display: flex;" class="display-options">
+    <div style="display: flex; gap: 30px;" class="display-options">
         <div class="description">
             <div class="label"> بدون مصاريف</div>
             <input type="checkbox" v-model="noExpenses" true-value="yes" false-value="no" />

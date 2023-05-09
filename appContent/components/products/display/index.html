@@ -11,7 +11,7 @@
                     <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="text" v-model="code" placeholder="الكود">
                 </th>
                 <th>الكمية</th>
-                <th>سعر الواحدة</th>
+                <th>تكلفة الواحدة</th>
                 <th :style="`background-color: ${alter?'red':'none'} `">سعر المبيع</th>
                 <th>الوصف</th>
                 <th>تاريخ الادخال</th>
@@ -40,7 +40,15 @@
 
                 </td>
                 <td>{{product.quantity}}</td>
-                <td>{{product.price}} <span class="currency">ل.س</span></td>
+                <td class="ptd" :id="product.id+'ptd'" @click="alter ? 
+                function(e){
+                    var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement
+                    setCellToUpdate(e,t)
+                }($event)
+                : null ">
+                    {{temoraryCellId == product.id+'ptd' ? '': product.price }}
+                    <input class="input" style="display: none ; width:100% !important" type="number" :placeholder="product.price"> <span class="currency">ل.س</span>
+                </td>
                 <td class="std" :id="product.id+'std'" @click="alter ? 
                 function(e){
                     var t = e.target.tagName == 'TD' ? e.target : e.target.parentElement

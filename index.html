@@ -10,12 +10,17 @@
 <body>
     <div id="app" v-cloak>
         <div class="index-options">
-            <button @click="filter = !filter">
+            <button @click="filter = !filter" style="margin-right: 10px;">
                 {{filter ? "قفل الفلتر" : "فلتر"}}
             </button>
-            <button @click="alter = !alter">
+            <button @click="setAlter" style="margin-right: 10px;">
                 {{alter ? "الغاء التعديل" : "تعديل"}}
             </button>
+            <div id="check-alter-password-groub" style="display: none;">
+                <input type="text" v-model="alterPassword" style="margin:5px ;">
+                <button @click="checkAlterPassword">تحقق</button>
+            </div>
+
         </div>
         <div class="title">
             <h1>{{title}}</h1>

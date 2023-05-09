@@ -136,13 +136,13 @@ const comp = {
         var ctrlDown = false;
         this.pringAll()
         document.addEventListener('keydown', (e) => {
-            if (e.key == ' ') {
+            if (e.key == 'Shift') {
                 e.preventDefault()
                 ctrlDown = true
             }
         })
         document.addEventListener('keyup', (e) => {
-            if (e.key == ' ') {
+            if (e.key == 'Shift') {
                 e.preventDefault()
                 ctrlDown = false
             }

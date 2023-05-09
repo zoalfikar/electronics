@@ -92,6 +92,16 @@
     gap: 30px;
 }
 
+.container-index .container-info div.medium {
+    all: unset;
+    font-size: small;
+    flex: 50%;
+    margin-top: 0;
+    margin-bottom: 0;
+    display: flex;
+    gap: 30px;
+}
+
 .container-index .container-info div * {
     flex: unset;
 }

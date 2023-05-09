@@ -8,11 +8,12 @@
                 <th>الديون</th>
                 <th>المصاريف</th>
                 <th>الارباح</th>
+                <th>وضع الجرد</th>
                 <th>تاريخ الادخال</th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="process in inventories" :key="process.id">
+            <tr v-for="process in inventories" :key="process.id" :style="`${!process.reguler?'background:rgba(0,0,0,0.3) ; color:white':'background-color:none ; color:none'}`">
                 <td :style="`display :${ alter ? 'table-cell' :'none'}`">
                     <button style="margin-left:5px" class="btn btn-danger" @click="deleteProcessConfirm(process.id)">
                         حذف
@@ -23,6 +24,7 @@
                 <td>{{process.debt}}</td>
                 <td>{{process.expenses}}</td>
                 <td>{{process.profit}}</td>
+                <td>{{process.reguler?'جرد نظامي':' جرد غير نظامي'}}</td>
                 <td>{{process.created_at}}</td>
             </tr>
         </tbody>

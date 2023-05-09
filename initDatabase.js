@@ -1,43 +1,38 @@
 var mysql = require('mysql');
-const fs = require("fs");
-const path = require("path");
 const { ipcRenderer } = require('electron');
-var con = mysql.createConnection({
-    host: "localhost",
-    user: 'root',
-    password: ''
-});
-var con2 = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "electronics"
-});
-const finishedBuildTable = () => {
-    fs.readFile(path.join(__dirname, 'electronics.json'), (error, data) => {
+const electronics = require('./electronics')
+var info;
 
-        if (error) {
+var con;
+var con2;
 
-            console.error(error);
-
-            throw error;
-        }
-
-        var info = JSON.parse(data);
-        info.Initialized = "1";
-        const dataUpdated = JSON.stringify(info);
-        fs.writeFile(path.join(__dirname, 'electronics.json'), dataUpdated, (error) => {
-
-            if (error) {
-
-                console.error(error);
-
-                throw error;
-            }
-            console.log("data.json written correctly");
-            ipcRenderer.send('change-web-content', "index.html");
+async function init() {
+    info = await electronics.readConfig()
+    con = mysql.createConnection({
+        host: "localhost",
+        user: info.mysql.user,
+        password: info.mysql.password
+    });
+    con2 = mysql.createConnection({
+        host: "localhost",
+        user: info.mysql.user,
+        password: info.mysql.password,
+        database: "electronics"
+    });
+    con.connect(function(err) {
+        if (err) throw err;
+        con.query("CREATE DATABASE if not exists electronics", function(err, result) {
+            if (err) throw err;
+            console.log("Database created");
+            //////////////// tables
+            productsTable()
         });
     });
+}
+const finishedBuildTable = async() => {
+    info.Initialized = "1";
+    await electronics.writeConfig(info)
+    ipcRenderer.send('change-web-content', "index.html");
 }
 const inventories = () => {
 
@@ -49,6 +44,7 @@ const inventories = () => {
         expenses DOUBLE NOT NULL ,
         debt DOUBLE NOT NULL ,
         profit DOUBLE  GENERATED ALWAYS  AS (sells - (costs + expenses + debt)) ,
+        reguler INT(1) DEFAULT 0  ,
         description TEXT  ,
         created_at TIMESTAMP NOT NULL DEFAULT NOW() ,
         updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE now()
@@ -170,12 +166,4 @@ const productsTable = () => {
     });
 
 }
-con.connect(function(err) {
-    if (err) throw err;
-    con.query("CREATE DATABASE if not exists electronics", function(err, result) {
-        if (err) throw err;
-        console.log("Database created");
-        //////////////// tables
-        productsTable()
-    });
-});
+init()

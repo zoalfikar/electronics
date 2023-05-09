@@ -1,11 +1,19 @@
 var mysql = require('mysql');
 var constraint = require('./constraint')
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "electronics"
-});
+const electronics = require('../../../electronics')
+var info;
+var con;
+
+async function init() {
+    info = await electronics.readConfig()
+    con = mysql.createConnection({
+        host: "localhost",
+        user: await info.mysql.user,
+        password: info.mysql.password,
+        database: "electronics"
+    });
+}
+init();
 module.exports.mysqlConect = (sql, func) => {
     con.query(sql, function(err, result) {
         if (err) {
@@ -173,25 +181,52 @@ module.exports.selectWhere = (tabel, condtions, funcTrue) => {
 
 }
 module.exports.columnSumWhere = (tabel, column, condtions, funcTrue) => {
-    var innerSql = ''
-    for (const [key, value] of Object.entries(condtions)) {
-        innerSql = innerSql + ` ${key} ${value.o} ${ isNaN(value.v)? "\"" +value.v +"\" AND" : value.v+' AND' }`
-    }
-    var sql = `
+        var innerSql = ''
+        for (const [key, value] of Object.entries(condtions)) {
+            if (Array.isArray(value))
+                value.forEach(v => {
+                    innerSql = innerSql + ` ${key} ${v.o} ${ isNaN(v.v)? "\"" +v.v +"\" AND" : v.v+' AND' }`
+                });
+            else
+                innerSql = innerSql + ` ${key} ${value.o} ${ isNaN(value.v)? "\"" +value.v +"\" AND" : value.v+' AND' }`
+        }
+        var sql = `
     select SUM(${column} ) AS sum
     from ${tabel} 
     WHERE ${innerSql.slice(0, -3)};
     `
-    con.query(sql, function(err, result) {
-        if (err) {
-            throw err;
-        };
-        if (funcTrue) {
-            funcTrue(result)
-        }
-    });
+        con.query(sql, function(err, result) {
+            if (err) {
+                throw err;
+            };
+            if (funcTrue) {
+                funcTrue(result)
+            }
+        });
 
-}
+    }
+    // module.exports.columnSumWhereMultiCond = (tabel, column, condtions, funcTrue) => {
+    //     var innerSql = ''
+    //     for (const [key, values] of Object.entries(condtions)) {
+    //         values.forEach(value => {
+    //             innerSql = innerSql + ` ${key} ${value.o} ${ isNaN(value.v)? "\"" +value.v +"\" AND" : value.v+' AND' }`
+    //         });
+    //     }
+    //     var sql = `
+    //     select SUM(${column} ) AS sum
+    //     from ${tabel} 
+    //     WHERE ${innerSql.slice(0, -3)};
+    //     `
+    //     con.query(sql, function(err, result) {
+    //         if (err) {
+    //             throw err;
+    //         };
+    //         if (funcTrue) {
+    //             funcTrue(result)
+    //         }
+    //     });
+
+// }
 module.exports.selectId = (tabel, value, funcTrue, funcFail) => {
     var sql = `
     select * 

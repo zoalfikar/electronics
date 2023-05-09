@@ -55,6 +55,7 @@ const comp = {
                 var newValue = $(this.currentCell).children('.input').val();
                 var isNameCell = $(this.currentCell).hasClass("ntd")
                 var isCodeCell = $(this.currentCell).hasClass("ctd")
+                var isPriceCell = $(this.currentCell).hasClass("ptd")
                 var isSellingPriceCell = $(this.currentCell).hasClass("std")
                 var isDescriptionCell = $(this.currentCell).hasClass("dtd")
                 var product = this.products.find((p) => {
@@ -78,6 +79,11 @@ const comp = {
                     if (isSellingPriceCell) controllers.productsController.asynicUpdateProduct(productId, { sellingPrice: newValue }).then(
                         (v) => {
                             product.sellingPrice = newValue;
+                            swal('تم التعديل')
+                        })
+                    if (isPriceCell) controllers.productsController.asynicUpdateProduct(productId, { price: newValue }).then(
+                        (v) => {
+                            product.price = newValue;
                             swal('تم التعديل')
                         })
 

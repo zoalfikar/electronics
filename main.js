@@ -7,16 +7,17 @@ const mysqlServre = require('./runMysqlServer')
 var homaPagePath = '';
 let win;
 fs.readFile(path.join(__dirname, 'electronics.json'), async(error, data) => {
-    var mysqlServerActive = await mysqlServre.run()
-    if (!mysqlServerActive) mysqlServerActive = await mysqlServre.run2()
-    if (!mysqlServerActive) console.log("start it manually");
-
 
     let customer = await customerChecking.check()
     if (!customer) {
         console.log("not customer");
         process.exit()
     }
+    var mysqlServerActive = await mysqlServre.run()
+        // if (!mysqlServerActive) mysqlServerActive = await mysqlServre.run2()
+
+    if (!mysqlServerActive) console.warn("start mysql server manually !");
+
     if (error) {
         console.error(error);
 
@@ -72,5 +73,4 @@ fs.readFile(path.join(__dirname, 'electronics.json'), async(error, data) => {
             app.quit()
         }
     })
-
 });

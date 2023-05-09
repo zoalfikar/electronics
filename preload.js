@@ -9,3 +9,6 @@ contextBridge.exposeInMainWorld('controllers', {
     expensesAndDebts: require('./appContent/controllers/expensesAndDebts'),
     inventories: require('./appContent/controllers/inventories'),
 })
+contextBridge.exposeInMainWorld('config', {
+    alterPassword: 'electronics-v1',
+})

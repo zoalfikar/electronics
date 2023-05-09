@@ -12,19 +12,23 @@ const comp = {
             noDebt: false,
             noCost: false,
             date: undefined,
+            date2: null,
         }
     },
     methods: {
         clearInput: (e) => {
             e.target.value = null
         },
-        pringAll: async function(date) {
+        pringAll: async function(date, date2) {
             if (date !== null) {
-                if (date == undefined) {
+                if ((date == undefined) || (date === '')) {
                     await swal('ادخل تاريخ')
                     return 0
                 }
                 date = date.replace('T', ' ') + ':00'
+                if (date2) {
+                    date2 = date2.replace('T', ' ') + ':00'
+                }
                 this.selectMode = true
             } else {
                 this.selectMode = false
@@ -38,7 +42,7 @@ const comp = {
                     return 0
                 }
             }
-            this.inventory = await controllers.inventories.claculat(date);
+            this.inventory = await controllers.inventories.claculat(date, date2);
             this.costs = this.inventory.costs ? this.inventory.costs : 0;
             this.sells = this.inventory.sells ? this.inventory.sells : 0;
             this.debt = this.inventory.debt ? this.inventory.debt : 0;
@@ -60,7 +64,7 @@ const comp = {
                 costs: inventory.costs ? inventory.costs : 0,
                 expenses: inventory.expenses ? inventory.expenses : 0,
                 sells: inventory.sells ? inventory.sells : 0,
-                debt: inventory.debt ? inventory.debt : 0
+                debt: inventory.debt ? inventory.debt : 0,
             }
             await controllers.inventories.addInventories(values)
             var confirm = await swal("تم")

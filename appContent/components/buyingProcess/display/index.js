@@ -35,19 +35,26 @@ const comp = {
         deleteProcess: async function(id) {
             var result = await controllers.productsController.deleteProcessId(id)
             this.updateFrontEnd(result.processId)
+            console.log(result);
             if (result.code) {
                 if (result.q > 0) {
                     swal(" تم الحذف")
                 } else {
-                    var confirm = await swal({
-                        title: "تنبيه",
-                        text: " لم تبقى كمية من هذا المنتج هل تريد حذفه ",
-                        icon: "warning",
-                        button: "تاكيد"
-                    })
-                    if (confirm) {
-                        this.deleteProduct(result.productId)
+                    if (result.q == 0) {
+                        var confirm = await swal({
+                            title: "تنبيه",
+                            text: " لم تبقى كمية من هذا المنتج هل تريد حذفه ",
+                            icon: "warning",
+                            button: "تاكيد"
+                        })
+                        if (confirm) {
+                            this.deleteProduct(result.productId)
+                        }
+                    } else {
+                        (swal('لاتوجد كمية كافية لارجاعها'))
+                        this.setProcessCode(id, null)
                     }
+
                 }
             } else {
                 var newcode = await swal({
@@ -64,37 +71,30 @@ const comp = {
                 if (!newcode) swal('لم يتم ادخال كود')
                 else {
                     await this.setProcessCode(id, newcode)
-                    if (result.q >= 0) {
-                        this.deleteProcess(id)
-                    } else {
-                        (swal('لاتوجد كمية كافية لارجاعها'))
-                        this.setProcessCode(id, null)
-                    }
+                    this.deleteProcess(id)
                 }
             }
         },
         setProcessCode: async function(id, code) {
-            var pro = await this.findProcess(id)
-            if (code) {
-                var product = await this.findProductByCode(code)
-                if (product) {
-                    swal(`اسم المنتج ${product.name}`)
-                    var ok = await controllers.productsController.asynicUpdateProcess(id, { code: code })
-                    if (ok) {
-                        pro.code = code
-                        return new Promise((resolve, reject) => {
-                            resolve(pro)
-                        })
-                    }
-                } else {
-                    swal(' المنتج غير موجود')
+            var process = await this.findProcess(id)
+            var product = await this.findProductByCode(code)
+            if (product) {
+                await swal(`اسم المنتج ${product.name}`)
+                var ok = await controllers.productsController.asynicUpdateProcess(id, { code: code })
+                if (ok) {
+                    process.code = code
+                    return new Promise((resolve, reject) => {
+                        resolve(process)
+                    })
                 }
             } else {
                 var ok = await controllers.productsController.asynicUpdateProcess(id, { code: null })
                 if (ok) {
-                    pro.code = code
+                    process.code = null
+                    await swal(`هذا الرمز لا ينتمي لاي منتج`)
+
                     return new Promise((resolve, reject) => {
-                        resolve(pro)
+                        resolve(process)
                     })
                 }
             }
@@ -157,11 +157,12 @@ const comp = {
             this.temoraryCellId = null;
             document.removeEventListener('click', this.alterEventHolder)
         },
-        updateProcessValue: function() {
+        updateProcessValue: async function() {
             if (this.alter) {
                 var processtId = $(this.currentCell).parents('tr').attr('id');
                 var newValue = $(this.currentCell).children('.input').val();
                 var isNameCell = $(this.currentCell).hasClass("ntd")
+                var isPriceCell = $(this.currentCell).hasClass("ptd")
                 var isQuantityCell = $(this.currentCell).hasClass("qtd")
                 var isTotallPriceCell = $(this.currentCell).hasClass("ttd")
                 var process = this.buyingProcess.find((p) => {
@@ -179,6 +180,18 @@ const comp = {
                             controllers.productsController.asynicUpdateProcess(processtId, { quantity: newValue, code: process.code }).then(
                                 (v) => {
                                     process.quantity = newValue;
+                                    swal('تم التعديل')
+                                }
+                            )
+                        }
+
+                    }
+                    if (isPriceCell) {
+                        if (!isNaN(newValue) && (newValue > 0)) {
+                            var changeProduct = await swal({ title: "تاكيد", text: " هل تريد تطبيق هذا التغيرات على المنتج ايضا ", button: "تطبيق" })
+                            controllers.productsController.asynicUpdateProcess(processtId, { price: newValue, code: process.code, changeProduct: changeProduct ? 1 : 0 }).then(
+                                (v) => {
+                                    process.price = newValue;
                                     swal('تم التعديل')
                                 }
                             )

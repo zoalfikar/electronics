@@ -25,6 +25,7 @@
   "homepage": "https://github.com/zoalfikar/elecrtonics#readme",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
+    "json-file-encrypt": "^2.1.2",
     "mysql": "^2.18.1",
     "vue": "^3.2.47"
   },

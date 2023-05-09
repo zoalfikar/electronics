@@ -1,49 +1,56 @@
 const { exec } = require('child_process');
-const fs = require("fs");
-const path = require('path');
-// for windows
+const electronics = require('./electronics')
+    // for windows
 module.exports.run = async() => {
-    return new Promise((resolve, reject) => {
-        fs.readFile(path.join(__dirname, 'electronics.json'), (error, data) => {
-            if (error) {
-                console.error(error);
+    const info = await electronics.readConfig()
+    return new Promise(async(resolve, reject) => {
+        var ckeckCommand = `sc query ${info.mysql.service} | findstr /i "STATE"`;
 
-                throw error;
-            }
-            const info = JSON.parse(data);
-            let path = info.mysql.mysqlServerPath.replace('{subPath}', info.mysql.subPath.replace('{version}', info.mysql.version))
-            let runCommand = info.mysql.mysqlServerPath.charAt(0) + ": & cd " + path + " & " + info.mysql.runCommand + ` -u ${info.mysql.user} --password=${info.mysql.password}`
-            exec(runCommand, (error, stdout, stderr) => {
-                if (error) {
-                    console.error(`error: ${error.message}`);
-                    return;
-                }
-
-                if (stderr) {
-                    console.error(`stderr: ${stderr}`);
-                    return;
-                }
-                resolve(stdout)
-            })
-        })
-
-    })
-}
-module.exports.run2 = async() => {
-    return new Promise((resolve, reject) => {
-
-        let runCommand = 'net start mysql'
-        exec(runCommand, (error, stdout, stderr) => {
+        exec(ckeckCommand, (error, stdout, stderr) => {
             if (error) {
                 console.error(`error: ${error.message}`);
-                return;
             }
 
             if (stderr) {
                 console.error(`stderr: ${stderr}`);
-                return;
             }
-            resolve(stdout)
+            if (stdout.includes('RUNNING')) {
+                console.log('sever already running');
+                resolve(1)
+            } else {
+                let runCommand = `net start ${info.mysql.service}`
+                exec(runCommand, (error, stdout, stderr) => {
+                    if (error) {
+                        console.error(`error: ${error.message}`);
+                    }
+
+                    if (stderr) {
+                        console.error(`stderr: ${stderr}`);
+                    }
+                    resolve(1)
+                })
+            }
         })
     })
+}
+module.exports.run2 = async() => {
+    return new Promise(async(resolve, reject) => {
+
+        const info = await electronics.readConfig();
+
+        let path = info.mysql.mysqlServerPath.replace('{subPath}', info.mysql.subPath.replace('{version}', info.mysql.version))
+        let runCommand = info.mysql.mysqlServerPath.charAt(0) + ": & cd " + path + " &  mysqld" + ` -u ${info.mysql.user} --password=${info.mysql.password}`
+        exec(runCommand, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`error: ${error.message}`);
+            }
+
+            if (stderr) {
+                console.error(`stderr: ${stderr}`);
+            }
+            console.log(stdout);
+            resolve(1)
+        })
+    })
+
 }
