@@ -8,14 +8,26 @@ const comp = {
             sellingPrice: null,
             sellingPriceEdite: false,
             tottal: null,
+            autoCumpleteArray: null,
         }
     },
     methods: {
+        codeChanged: function(v) {
+            this.code = v
+        },
         clearInput: (e) => {
             e.target.value = null
         },
         pringAll: async function() {
             this.products = await controllers.productsController.pringAllProducts();
+            this.autoCumpleteArray = Object.values(this.products.map(p => p.code));
+            let codeChanged = this.codeChanged
+            $("#code").autocomplete({
+                source: this.autoCumpleteArray,
+                select: function(event, ui) {
+                    codeChanged(ui.item.value.toString())
+                }
+            });
         },
         setInfo: function(p) {
             this.sellingPrice = p.sellingPrice;
@@ -113,6 +125,7 @@ const comp = {
     },
     watch: {
         code: function(n, o) {
+            console.log(n);
             this.currentProduct = this.products.find((p) => {
                 return p.code === n;
             })

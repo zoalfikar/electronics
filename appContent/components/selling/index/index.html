@@ -3,47 +3,47 @@
         <div class="code-input input-element">
             <label for="code">الرمز</label>
             <input id="code" type="text" v-model="code">
-            <p class="code-error error"></p>
+            <p class="code-error error "></p>
         </div>
-        <div class="quantity-input input-element">
-            <label for="quantity">الكمية</label>
-            <input @click="clearInput($event)" id="quantity" min="1" type="number" v-model="quantity">
-            <p class="quantity-error error"></p>
+        <div class="quantity-input input-element ">
+            <label for="22">الكمية</label>
+            <input type="number" @click="clearInput($event) " id="quantity" min="1 " v-model="quantity ">
+            <p class="quantity-error error "></p>
         </div>
-        <div class=" price-input input-element">
-            <label for="price">سعر المبيع</label>
-            <input :readonly="sellingPriceEdite ? false : true" id="price" min="1" type="number" v-model="sellingPrice" @click="sellingPriceEdite ? clearInput($event) : null">
-            <span for="price">ل.س</span>
-            <p class="price-error error"></p>
+        <div class=" price-input input-element ">
+            <label for="price ">سعر المبيع</label>
+            <input type="number" :readonly="sellingPriceEdite ? false : true " id="price " min="1 " v-model="sellingPrice " @click="sellingPriceEdite ? clearInput($event) : null ">
+            <span for="price ">ل.س</span>
+            <p class="price-error error "></p>
         </div>
-        <div class=" options-input input-element">
-            <button @click=" sellingPriceEdite =!sellingPriceEdite" id="edite-price"> {{sellingPriceEdite?"قفل  ":"تحرير "   }}</button>
-            <button @click=" sellingPrice =currentProduct ? currentProduct.sellingPrice : null " id="refresh-price">استعادة  </button>
-            <div class="tottal">السعر الكلي : {{tottal}} <span>{{tottal ? 'ل.س':''}}</span></div>
+        <div class=" options-input input-element ">
+            <button @click=" sellingPriceEdite=!sellingPriceEdite " id="edite-price "> {{sellingPriceEdite?"قفل ":"تحرير "   }}</button>
+            <button @click=" sellingPrice=currentProduct ? currentProduct.sellingPrice : null " id="refresh-price ">استعادة  </button>
+            <div class="tottal ">السعر الكلي : {{tottal}} <span>{{tottal ? 'ل.س':''}}</span></div>
         </div>
     </div>
-    <div class="container-index-element container-info info">
+    <div class="container-index-element container-info info ">
         <div>
-            <div class="label">المنتج</div>
-            <div class="name">{{currentProduct?currentProduct.name:null}} </div>
+            <div class="label ">المنتج</div>
+            <div class="name ">{{currentProduct?currentProduct.name:null}} </div>
         </div>
         <div>
-            <div class="label">الكمية المتوفرة</div>
-            <div class="quantity">{{currentProduct?currentProduct.quantity:null}}</div>
+            <div class="label ">الكمية المتوفرة</div>
+            <div class="quantity ">{{currentProduct?currentProduct.quantity:null}}</div>
         </div>
         <div>
-            <div class="label"> تكلفة واحدة الجملة</div>
-            <div class="price">{{currentProduct?currentProduct.price + " ل.س":null}}</div>
+            <div class="label "> تكلفة واحدة الجملة</div>
+            <div class="price ">{{currentProduct?currentProduct.price + " ل.س ":null}}</div>
         </div>
         <div>
-            <div class="label">معلومات اضافية</div>
-            <div class="description">{{ currentProduct?currentProduct.description!=='null' ?currentProduct.description:null : null }}
+            <div class="label ">معلومات اضافية</div>
+            <div class="description ">{{ currentProduct?currentProduct.description!=='null' ?currentProduct.description:null : null }}
             </div>
         </div>
     </div>
 
 
-    <div class="container-index-element container-option">
-        <button @click="sellConfirm()" id="sell-production" class="sell-production">$</button>
+    <div class="container-index-element container-option ">
+        <button @click="sellConfirm() " id="sell-production " class="sell-production ">$</button>
     </div>
 </div>
