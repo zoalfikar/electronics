@@ -48,14 +48,14 @@ const comp = {
     watch: {
         totall: function(nt, ot) {
             if (this.quantity && nt >= this.quantity) {
-                this.price = parseInt(nt / this.quantity)
+                this.price = parseFloat(nt / this.quantity).toFixed(2)
             } else {
                 this.price = 0
             }
         },
         quantity: function(nt, ot) {
             if (nt && this.totall >= nt) {
-                this.price = parseInt(this.totall / nt)
+                this.price = parseFloat(this.totall / nt).toFixed(2)
             } else {
                 this.price = 0
             }
@@ -69,6 +69,16 @@ const comp = {
                 }
             });
         });
+        document.addEventListener('keypress', function(e) {
+
+            if ((e.key == 'Enter')) {
+                e.preventDefault()
+                if ($('.swal-button--confirm').length && (parseInt($('.swal-modal').css('opacity')) == 1))
+                    $('.swal-button--confirm')[0].click()
+                else $('#submit').click()
+            }
+
+        })
     }
 }
 

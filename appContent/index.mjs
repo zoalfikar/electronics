@@ -57,3 +57,4 @@ const router = VueRouter.createRouter({
 app.use(router)
 app.mount('#app');
 window.mainVueApp = app;
+window.currencyFormat = Intl.NumberFormat('en-US');

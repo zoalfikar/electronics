@@ -16,7 +16,7 @@ init();
 
 module.exports.uniqeColumn = (tabel, column, value, funcTrue, funcFail) => {
     var sql = `
-select * from ${tabel} where  ${column} = ${isNaN(value) ? "\"" +value +"\""  : value}
+select * from ${tabel} where  ${column} = ${(typeof value === 'string') ? "\"" +value +"\""  : value}
 `
     con.query(sql, function(err, result) {
         if (err) {

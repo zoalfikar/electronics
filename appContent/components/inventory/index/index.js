@@ -7,13 +7,23 @@ const comp = {
             sells: null,
             debt: null,
             expenses: null,
-            profit: null,
-            noExpenses: false,
-            noDebt: false,
-            noCost: false,
+            noExpenses: 'no',
+            noDebt: 'no',
+            noCost: 'no',
             date: undefined,
             date2: null,
+            currencyFormat: currencyFormat,
         }
+    },
+    computed: {
+        profit: function() {
+            return this.sells - (
+                ((this.noCost == 'no') ? this.costs : 0) +
+                ((this.noExpenses == 'no') ? this.expenses : 0) +
+                ((this.noDebt == 'no') ? this.debt : 0)
+            )
+        },
+
     },
     methods: {
         clearInput: (e) => {
@@ -25,9 +35,9 @@ const comp = {
                     await swal('ادخل تاريخ')
                     return 0
                 }
-                date = date.replace('T', ' ') + ':00'
+                date = date.replace('T', ' ')
                 if (date2) {
-                    date2 = date2.replace('T', ' ') + ':00'
+                    date2 = date2.replace('T', ' ')
                 }
                 this.selectMode = true
             } else {
@@ -47,7 +57,6 @@ const comp = {
             this.sells = this.inventory.sells ? this.inventory.sells : 0;
             this.debt = this.inventory.debt ? this.inventory.debt : 0;
             this.expenses = this.inventory.expenses ? this.inventory.expenses : 0;
-            this.profit = this.sells - (this.costs + this.expenses + this.debt)
         },
         archivConfirm: async function() {
             var confirm = await swal({
@@ -68,29 +77,6 @@ const comp = {
             }
             await controllers.inventories.addInventories(values)
             var confirm = await swal("تم")
-        },
-    },
-    watch: {
-        noExpenses: function(n, o) {
-            if (n == 'yes') {
-                this.profit = this.profit + this.expenses;
-            } else {
-                this.profit = this.profit - this.expenses;
-            }
-        },
-        noDebt: function(n, o) {
-            if (n == 'yes') {
-                this.profit = this.profit + this.debt;
-            } else {
-                this.profit = this.profit - this.debt;
-            }
-        },
-        noCost: function(n, o) {
-            if (n == 'yes') {
-                this.profit = this.profit + this.costs;
-            } else {
-                this.profit = this.profit - this.costs;
-            }
         },
     },
     mounted: function() {

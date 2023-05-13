@@ -19,7 +19,7 @@
         <div class=" options-input input-element ">
             <button @click=" sellingPriceEdite=!sellingPriceEdite " id="edite-price "> {{sellingPriceEdite?"قفل ":"تحرير "   }}</button>
             <button @click=" sellingPrice=currentProduct ? currentProduct.sellingPrice : null " id="refresh-price ">استعادة  </button>
-            <div class="tottal ">السعر الكلي : {{tottal}} <span>{{tottal ? 'ل.س':''}}</span></div>
+            <div class="tottal" style="font-size: 20px;">السعر الكلي : {{tottal}} <span>{{tottal ? 'ل.س':''}}</span></div>
         </div>
     </div>
     <div class="container-index-element container-info info ">
@@ -33,7 +33,7 @@
         </div>
         <div>
             <div class="label "> تكلفة واحدة الجملة</div>
-            <div class="price ">{{currentProduct?currentProduct.price + " ل.س ":null}}</div>
+            <div class="price ">{{ currentProduct? currencyFormat.format(currentProduct.price) + " ل.س ":null}}</div>
         </div>
         <div>
             <div class="label ">معلومات اضافية</div>
@@ -44,6 +44,6 @@
 
 
     <div class="container-index-element container-option ">
-        <button @click="sellConfirm() " id="sell-production " class="sell-production ">$</button>
+        <button @click="sellConfirm() " id="sell-production" class="sell-production ">$</button>
     </div>
 </div>

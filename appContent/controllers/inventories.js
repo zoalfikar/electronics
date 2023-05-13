@@ -34,7 +34,7 @@ module.exports.claculat = (date, date2) => {
                         var expenses = re[0].sum;
                         if (!date) controller.update('buying_payments', { clacualted: 1 }, { clacualted: { o: "=", v: 0 } }, (r1) => {
                             controller.update('selling_payments', { clacualted: 1 }, { clacualted: { o: "=", v: 0 } }, (r2) => {
-                                controller.update('debt', { clacualted: 1 }, { clacualted: { o: "=", v: 0 } }, (r3) => {
+                                controller.update('debt', { clacualted: 1 }, { clacualted: { o: "=", v: 0 }, paid: { o: "=", v: 0 } }, (r3) => {
                                     controller.update('expenses', { clacualted: 1 }, { clacualted: { o: "=", v: 0 } }, async(r3) => {
                                         costs = costs ? costs : 0;
                                         sells = sells ? sells : 0;

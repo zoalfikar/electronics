@@ -2,7 +2,7 @@ const jfe = require("json-file-encrypt");
 const fs = require("fs");
 const path = require("path");
 
-let key1 = new jfe.encryptor("electronics-v1");
+let key1 = new jfe.encryptor("there-in-no-way-to-find-out-what-is-the-secret-key");
 
 module.exports.writeConfig = (data) => {
 

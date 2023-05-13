@@ -9,6 +9,7 @@ const comp = {
             sellingPriceEdite: false,
             tottal: null,
             autoCumpleteArray: null,
+            currencyFormat: currencyFormat,
         }
     },
     methods: {
@@ -30,6 +31,7 @@ const comp = {
             });
         },
         setInfo: function(p) {
+            $('.error').text(null)
             this.sellingPrice = p.sellingPrice;
             this.quantity = 1;
         },
@@ -50,7 +52,7 @@ const comp = {
         },
         claculateTottal: function() {
             if (this.sellingPrice && this.quantity) {
-                this.tottal = this.sellingPrice * this.quantity
+                this.tottal = currencyFormat.format(this.sellingPrice * this.quantity);
             } else {
                 this.tottal = null
             }
@@ -125,7 +127,6 @@ const comp = {
     },
     watch: {
         code: function(n, o) {
-            console.log(n);
             this.currentProduct = this.products.find((p) => {
                 return p.code === n;
             })

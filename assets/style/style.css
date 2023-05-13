@@ -1,5 +1,6 @@
 @import "./content/containerIndex.css";
 @import "./content/products.css";
+@import "./fonts/Amiri/Amiri.css";
 :root {
     --form-width: 100%;
     --input-form-width: 40%;
@@ -9,6 +10,10 @@
 
 [v-cloak] {
     display: none;
+}
+
+body {
+    font-family: 'Amiri' !important;
 }
 
 .title {

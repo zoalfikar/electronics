@@ -61,13 +61,13 @@ const comp = {
             });
         },
         deleteProcessConfirm: async function(id) {
-            await swal({
-                title: "تاكيد",
-                text: "هل انت متاكد من حذف هذه الفاتورة",
-                icon: "warning",
-                button: "تاكيد"
-            })
-            this.deleteProcess(id)
+            if (await swal({
+                    title: "تاكيد",
+                    text: "هل انت متاكد من حذف هذه الفاتورة",
+                    icon: "warning",
+                    button: "تاكيد"
+                }))
+                this.deleteProcess(id)
         },
         deleteProcess: async function(id) {
             var result = await controllers.sellingController.deleteProcessId(id)
@@ -100,8 +100,8 @@ const comp = {
                             buttons: "تاكيد"
 
                         })
-                        await this.setProcessCode(id, newcode)
-                        this.deleteProcess(id)
+                        var prod = await this.setProcessCode(id, newcode)
+                        if (prod) this.deleteProcess(id)
 
                     }
                     if (confirm == "goto") {
@@ -141,16 +141,16 @@ const comp = {
             var pro = await this.findProcess(id)
             var product = await this.findProductByCode(code)
             if (product) {
-                swal(`اسم المنتج ${product.name}`)
+                await swal(`اسم المنتج ${product.name}`)
                 var ok = await controllers.sellingController.asynicUpdateProcess(id, { code: code })
                 if (ok) {
                     pro.code = code
                     return new Promise((resolve, reject) => {
-                        resolve(pro)
+                        resolve(product)
                     })
                 }
             } else {
-                swal(' المنتج غير موجود')
+                await swal(' المنتج غير موجود')
             }
         },
         findProcess: function(id) {

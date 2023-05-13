@@ -117,6 +117,11 @@ module.exports.deleteProcessId = (id) => {
     })
 }
 module.exports.asynicUpdateProcess = (id, QP) => {
+    var changeProduct = 0;
+    if (QP.changeProduct !== null) {
+        changeProduct = QP.changeProduct
+        delete QP.changeProduct
+    }
     return new Promise((resolve, reject) => {
         if ((QP.quantity !== null) && (QP.quantity >= 0)) {
             if (!QP.code) {
@@ -128,6 +133,7 @@ module.exports.asynicUpdateProcess = (id, QP) => {
                 this.selectProcessId(id, (pros) => {
                     var process = pros[0]
                     var newQuantity = product.quantity + (QP.quantity - process.quantity);
+                    console.log(newQuantity);
                     this.updateProductId(product.id, { quantity: newQuantity }, (res) => {
                         controller.update("buying_payments", QP, { id: { o: '=', v: id } }, (r) => {
                             console.log("data updated");
@@ -139,13 +145,12 @@ module.exports.asynicUpdateProcess = (id, QP) => {
 
             })
         } else {
-            if ((QP.price !== null) && (QP.changeProduct)) {
+            if ((QP.price !== null) && (changeProduct)) {
                 if (!QP.code) {
                     throw ('code is requir when updating product')
-
                 }
-                this.updateProductByCode(QP.code, { price: QP.price }, (res) => {
-                    delete QP.changeProduct
+                this.updateProductByCode(QP.code.toString(), { price: QP.price }, (res) => {
+
                     controller.update("buying_payments", QP, { id: { o: '=', v: id } }, (r) => {
                         console.log("data updated");
                         resolve(r)
@@ -178,7 +183,6 @@ module.exports.updateProductId = (id, QP, func) => {
     controller.update("products", QP, { id: { o: '=', v: id } }, func)
 }
 module.exports.updateProductByCode = (code, QP, func) => {
-
     controller.update("products", QP, { code: { o: '=', v: code } }, func)
 }
 module.exports.deleteProductId = (id, func) => {

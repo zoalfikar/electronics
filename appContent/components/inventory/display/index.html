@@ -15,7 +15,7 @@
         <tbody>
             <tr v-for="process in inventories" :key="process.id" :style="`${!process.reguler?'background:rgba(0,0,0,0.3) ; color:white':'background-color:none ; color:none'}`">
                 <td :style="`display :${ alter ? 'table-cell' :'none'}`">
-                    <button style="margin-left:5px" class="btn btn-danger" @click="deleteProcessConfirm(process.id)">
+                    <button v-if="!process.reguler" style="margin-left:5px" class="btn btn-danger" @click="deleteProcessConfirm(process.id)">
                         حذف
                     </button>
                 </td>

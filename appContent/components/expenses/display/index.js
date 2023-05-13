@@ -20,13 +20,13 @@ const comp = {
             this.expenses = this.allExpenses;
         },
         deleteProcessConfirm: async function(id) {
-            await swal({
-                title: "تاكيد",
-                text: "هل انت متاكد من حذف  المصروف",
-                icon: "warning",
-                button: "تاكيد"
-            })
-            this.deleteProcess(id)
+            if (await swal({
+                    title: "تاكيد",
+                    text: "هل انت متاكد من حذف  المصروف",
+                    icon: "warning",
+                    button: "تاكيد"
+                }))
+                this.deleteProcess(id)
         },
         deleteProcess: async function(id) {
             var result = await controllers.expensesAndDebts.deletExpenses(id)

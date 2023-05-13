@@ -22,13 +22,13 @@ const comp = {
             this.debt = this.allDebt;
         },
         deleteProcessConfirm: async function(id) {
-            await swal({
-                title: "تاكيد",
-                text: "هل انت متاكد من حذف هذه الدين",
-                icon: "warning",
-                button: "تاكيد"
-            })
-            this.deleteProcess(id)
+            if (await swal({
+                    title: "تاكيد",
+                    text: "هل انت متاكد من حذف هذه الدين",
+                    icon: "warning",
+                    button: "تاكيد"
+                }))
+                this.deleteProcess(id)
         },
         deleteProcess: async function(id) {
             var result = await controllers.expensesAndDebts.deletDebt(id)
@@ -119,16 +119,16 @@ const comp = {
 
         },
         paidProcessConfirm: async function(id) {
-            await swal({
-                title: "تاكيد",
-                text: "هل انت متاكد من سداد هذه الدين",
-                icon: "warning",
-                button: "تاكيد"
-            })
-            this.paidProcess(id)
+            if (await swal({
+                    title: "تاكيد",
+                    text: "هل انت متاكد من سداد هذه الدين",
+                    icon: "warning",
+                    button: "تاكيد"
+                }))
+                this.paidProcess(id)
         },
         paidProcess: function(id) {
-            controllers.expensesAndDebts.updateDebt(id, { paid: 1, clacualted: 1 }).then(
+            controllers.expensesAndDebts.updateDebt(id, { paid: 1 }).then(
                 (v) => {
                     this.debt.find((p) => p.id == id).paid = 1;
                     swal('تم التعديل')
@@ -136,16 +136,16 @@ const comp = {
             )
         },
         notPaidaidProcessConfirm: async function(id) {
-            await swal({
-                title: "تاكيد",
-                text: "هل انت متاكد من عدم سداد هذه الدين",
-                icon: "warning",
-                button: "تاكيد"
-            })
-            this.notPaidProcess(id)
+            if (await swal({
+                    title: "تاكيد",
+                    text: "هل انت متاكد من عدم سداد هذه الدين",
+                    icon: "warning",
+                    button: "تاكيد"
+                }))
+                this.notPaidProcess(id)
         },
         notPaidProcess: function(id) {
-            controllers.expensesAndDebts.updateDebt(id, { paid: 0, clacualted: 0 }).then(
+            controllers.expensesAndDebts.updateDebt(id, { paid: 0 }).then(
                 (v) => {
                     this.debt.find((p) => p.id == id).paid = 0;
                     swal('تم التعديل')

@@ -22,7 +22,7 @@ const comp = {
             this.deleteProcess(id)
         },
         deleteProcess: async function(id) {
-            var result = await controllers.expensesAndDebts.deletDebt(id)
+            var result = await controllers.inventories.deletInventory(id)
             if (result) {
                 this.updateFrontEnd(id)
                 swal(" تم الحذف")

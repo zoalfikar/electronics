@@ -24,18 +24,17 @@ const comp = {
             this.buyingProcess = this.allBuyingProcess;
         },
         deleteProcessConfirm: async function(id) {
-            await swal({
-                title: "تاكيد",
-                text: "هل انت متاكد من حذف هذه الفاتورة",
-                icon: "warning",
-                button: "تاكيد"
-            })
-            this.deleteProcess(id)
+            if (await swal({
+                    title: "تاكيد",
+                    text: "هل انت متاكد من حذف هذه الفاتورة",
+                    icon: "warning",
+                    button: "تاكيد"
+                }))
+                this.deleteProcess(id)
         },
         deleteProcess: async function(id) {
             var result = await controllers.productsController.deleteProcessId(id)
             this.updateFrontEnd(result.processId)
-            console.log(result);
             if (result.code) {
                 if (result.q > 0) {
                     swal(" تم الحذف")
@@ -52,7 +51,6 @@ const comp = {
                         }
                     } else {
                         (swal('لاتوجد كمية كافية لارجاعها'))
-                        this.setProcessCode(id, null)
                     }
 
                 }
@@ -70,8 +68,8 @@ const comp = {
                 })
                 if (!newcode) swal('لم يتم ادخال كود')
                 else {
-                    await this.setProcessCode(id, newcode)
-                    this.deleteProcess(id)
+                    var prod = await this.setProcessCode(id, newcode)
+                    if (prod) this.deleteProcess(id)
                 }
             }
         },
@@ -84,7 +82,7 @@ const comp = {
                 if (ok) {
                     process.code = code
                     return new Promise((resolve, reject) => {
-                        resolve(process)
+                        resolve(product)
                     })
                 }
             } else {
@@ -94,7 +92,7 @@ const comp = {
                     await swal(`هذا الرمز لا ينتمي لاي منتج`)
 
                     return new Promise((resolve, reject) => {
-                        resolve(process)
+                        resolve(false)
                     })
                 }
             }
@@ -168,15 +166,14 @@ const comp = {
                 var process = this.buyingProcess.find((p) => {
                     return p.id == processtId
                 })
-                if (newValue) {
-
+                if ((newValue) || (newValue >= 0)) {
                     if (isNameCell) controllers.productsController.asynicUpdateProcess(processtId, { name: newValue }).then((v) => {
                         process.name = newValue;
                         swal('تم التعديل')
 
                     })
                     if (isQuantityCell) {
-                        if (!isNaN(newValue) && (newValue > 0)) {
+                        if (!isNaN(newValue) && (newValue >= 0)) {
                             controllers.productsController.asynicUpdateProcess(processtId, { quantity: newValue, code: process.code }).then(
                                 (v) => {
                                     process.quantity = newValue;
@@ -187,7 +184,7 @@ const comp = {
 
                     }
                     if (isPriceCell) {
-                        if (!isNaN(newValue) && (newValue > 0)) {
+                        if (!isNaN(newValue) && (newValue >= 0)) {
                             var changeProduct = await swal({ title: "تاكيد", text: " هل تريد تطبيق هذا التغيرات على المنتج ايضا ", button: "تطبيق" })
                             controllers.productsController.asynicUpdateProcess(processtId, { price: newValue, code: process.code, changeProduct: changeProduct ? 1 : 0 }).then(
                                 (v) => {
@@ -198,11 +195,13 @@ const comp = {
                         }
 
                     }
-                    if (isTotallPriceCell) controllers.productsController.asynicUpdateProcess(processtId, { totall: newValue }).then(
-                        (v) => {
-                            process.totall = newValue;
-                            swal('تم التعديل')
-                        })
+                    if (isTotallPriceCell)
+                        if (!isNaN(newValue) && (newValue >= 0))
+                            controllers.productsController.asynicUpdateProcess(processtId, { totall: newValue }).then(
+                                (v) => {
+                                    process.totall = newValue;
+                                    swal('تم التعديل')
+                                })
                 }
             }
 

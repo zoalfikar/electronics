@@ -31,7 +31,7 @@ module.exports.insert = (tabel, values, funcTrue) => {
         leftSql = leftSql + ` ${key}  ,`
     }
     for (const [key, value] of Object.entries(values)) {
-        rightSql = rightSql + ` ${isNaN(value)? "\"" +value +"\"," : value+' ,'}`
+        rightSql = rightSql + ` ${(typeof value === 'string')? "\"" +value +"\"," : value+' ,'}`
     }
     var sql = `INSERT INTO ${tabel} (
      ${leftSql.slice(0, -1)}
@@ -55,10 +55,10 @@ module.exports.update = (tabel, values, condtions, funcTrue) => {
     var leftSql = ''
     var rightSql = ''
     for (const [key, value] of Object.entries(values)) {
-        leftSql = leftSql + ` ${key} = ${(value !== null) && (value !== '') ? isNaN(value) ? "\"" +value +"\","  : value+' ,' : 'NULL ,'}`
+        leftSql = leftSql + ` ${key} = ${(value !== null) && (value !== '') ? (typeof value === 'string') ? "\"" +value +"\","  : value+' ,' : 'NULL ,'}`
     }
     for (const [key, value] of Object.entries(condtions)) {
-        rightSql = rightSql + ` ${key} ${value.o} ${  isNaN(value.v)? "\"" +value.v +"\" AND" : value.v+' AND' }`
+        rightSql = rightSql + ` ${key} ${value.o} ${  (typeof value.v === 'string')? "\"" +value.v +"\" AND" : value.v+' AND' }`
     }
     leftSql = leftSql.slice(0, -1)
     rightSql = rightSql.slice(0, -3)
@@ -81,7 +81,7 @@ module.exports.update = (tabel, values, condtions, funcTrue) => {
 module.exports.delet = (tabel, condtions, funcTrue) => {
     var rightSql = ''
     for (const [key, value] of Object.entries(condtions)) {
-        rightSql = rightSql + ` ${key} ${value.o} ${isNaN(value.v)? "\"" +value.v +"\" AND" : value.v+' AND'}`
+        rightSql = rightSql + ` ${key} ${value.o} ${(typeof value.v === 'string')? "\"" +value.v +"\" AND" : value.v+' AND'}`
     }
     rightSql = rightSql.slice(0, -3)
 
@@ -163,7 +163,7 @@ module.exports.select = (tabel, values, funcTrue, funcFail) => {
 module.exports.selectWhere = (tabel, condtions, funcTrue) => {
     var innerSql = ''
     for (const [key, value] of Object.entries(condtions)) {
-        innerSql = innerSql + ` ${key} ${value.o} ${ isNaN(value.v)? "\"" +value.v +"\" AND" : value.v+' AND' }`
+        innerSql = innerSql + ` ${key} ${value.o} ${ (typeof value.v === 'string')? "\"" +value.v +"\" AND" : value.v+' AND' }`
     }
     var sql = `
     select * 
@@ -185,10 +185,10 @@ module.exports.columnSumWhere = (tabel, column, condtions, funcTrue) => {
         for (const [key, value] of Object.entries(condtions)) {
             if (Array.isArray(value))
                 value.forEach(v => {
-                    innerSql = innerSql + ` ${key} ${v.o} ${ isNaN(v.v)? "\"" +v.v +"\" AND" : v.v+' AND' }`
+                    innerSql = innerSql + ` ${key} ${v.o} ${ (typeof v.v === 'string')? "\"" +v.v +"\" AND" : v.v+' AND' }`
                 });
             else
-                innerSql = innerSql + ` ${key} ${value.o} ${ isNaN(value.v)? "\"" +value.v +"\" AND" : value.v+' AND' }`
+                innerSql = innerSql + ` ${key} ${value.o} ${ (typeof value.v === 'string')? "\"" +value.v +"\" AND" : value.v+' AND' }`
         }
         var sql = `
     select SUM(${column} ) AS sum

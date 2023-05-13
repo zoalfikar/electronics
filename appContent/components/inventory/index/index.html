@@ -2,10 +2,10 @@
     <div>
         <p>سوف يتم ارشفة جميع البيانات الغير مؤرشفة حتى الان</p>
         <p> يمكن حساب التكاليف والربح حسب الوقت الذي تريده لكن لن يتم تعليم البيانات ك بيانات مؤرشفة </p>
-        <label style="margin: 10px;" for="date-input-from">من تاريخ</label>
-        <input type="datetime-local" id="date-input-from" v-model="date">
-        <label style="margin: 10px;" for="date-input-to"> الى تاريخ (حقل اختياري)</label>
-        <input type="datetime-local" id="date-input-to" v-model="date2">
+        <div><label style="width: 15%; margin: 10px;" for="date-input-from">من تاريخ</label>
+            <input type="datetime-local" id="date-input-from" v-model="date" step=1></div>
+        <div> <label style="width: 15%;  margin: 10px;" for="date-input-to"> الى تاريخ (حقل اختياري)</label>
+            <input type="datetime-local" id="date-input-to" v-model="date2" step=1></div>
         <button style="margin:40px; margin-top: 10px ;margin-bottom: 10px ;" @click="pringAll(date ,date2)">حسب التاريخ</button>
         <button :disabled="selectMode?false:true" @click="pringAll(null)"> جرد نظامي </button>
     </div>
@@ -13,19 +13,19 @@
     <div class="container-index-element container-info info">
         <div class="medium ">
             <div class="label">التكاليف</div>
-            <div class="name">{{costs + " ل.س" }} </div>
+            <div class="name">{{currencyFormat.format(costs?costs:0) + " ل.س" }} </div>
         </div>
         <div class="medium ">
             <div class="label">المبيع </div>
-            <div class="quantity">{{sells + " ل.س" }}</div>
+            <div class="quantity">{{currencyFormat.format(sells?sells:0) + " ل.س" }}</div>
         </div>
         <div class="medium ">
             <div class="label"> الديون</div>
-            <div class="price">{{debt + " ل.س" }}</div>
+            <div class="price">{{currencyFormat.format(debt?debt:0) + " ل.س" }}</div>
         </div>
         <div class="medium ">
             <div class="label"> المصاريف</div>
-            <div class="description">{{ expenses + " ل.س" }}
+            <div class="description">{{ currencyFormat.format(expenses?expenses:0) + " ل.س" }}
             </div>
         </div>
         <div class="medium " :style="`
@@ -33,7 +33,7 @@
         color:${(profit < 0 )? 'white !important' : 'black !important'}
         `">
             <div class="label"> الربح</div>
-            <div class="description">{{ profit + " ل.س" }}
+            <div class="description">{{ currencyFormat.format(profit?profit:0) + " ل.س" }}
             </div>
         </div>
     </div>
