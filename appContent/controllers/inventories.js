@@ -19,8 +19,8 @@ module.exports.claculat = (date, date2) => {
             conditionsDebt.created_at = [{ v: date, o: '>=' }, { v: date2, o: '<=' }]
         }
     } else {
-        conditions.clacualted = [{ v: 0, o: '=' }]
-        conditionsDebt.clacualted = [{ v: 0, o: '=' }]
+        conditions.inventoryId = [{ v: null, o: 'is' }]
+        conditionsDebt.inventoryId = [{ v: null, o: 'is' }]
     }
     conditionsDebt.paid = [{ v: 0, o: '=' }]
     return new Promise((resolve, reject) => {
@@ -30,24 +30,30 @@ module.exports.claculat = (date, date2) => {
                 var sells = rs[0].sum
                 controller.columnSumWhere('debt', 'totall', conditionsDebt, (rc) => {
                     var debt = rc[0].sum
-                    controller.columnSumWhere('expenses', 'totall', conditions, (re) => {
+                    controller.columnSumWhere('expenses', 'totall', conditions, async(re) => {
                         var expenses = re[0].sum;
-                        if (!date) controller.update('buying_payments', { clacualted: 1 }, { clacualted: { o: "=", v: 0 } }, (r1) => {
-                            controller.update('selling_payments', { clacualted: 1 }, { clacualted: { o: "=", v: 0 } }, (r2) => {
-                                controller.update('debt', { clacualted: 1 }, { clacualted: { o: "=", v: 0 }, paid: { o: "=", v: 0 } }, (r3) => {
-                                    controller.update('expenses', { clacualted: 1 }, { clacualted: { o: "=", v: 0 } }, async(r3) => {
-                                        costs = costs ? costs : 0;
-                                        sells = sells ? sells : 0;
-                                        debt = debt ? debt : 0;
-                                        expenses = expenses ? expenses : 0;
-                                        await this.addInventories({ costs: costs, sells: sells, debt: debt, expenses: expenses, reguler: 1 })
-                                        resolve({ costs: costs, sells: sells, debt: debt, expenses: expenses })
+                        if (!date) {
+                            costs = costs ? costs : 0;
+                            sells = sells ? sells : 0;
+                            debt = debt ? debt : 0;
+                            expenses = expenses ? expenses : 0;
+                            var inv = await this.addInventories({ costs: costs, sells: sells, debt: debt, expenses: expenses, reguler: 1 })
+                            controller.update('buying_payments', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' } }, (r1) => {
+                                controller.update('selling_payments', { inventoryId: 1 }, { inventoryId: { v: null, o: 'is' } }, (r2) => {
+                                    controller.update('debt', { inventoryId: 1 }, { inventoryId: { v: null, o: 'is' }, paid: { o: "=", v: 0 } }, (r3) => {
+                                        controller.update('expenses', { inventoryId: 1 }, { inventoryId: { v: null, o: 'is' } }, async(r3) => {
+                                            resolve({ costs: costs, sells: sells, debt: debt, expenses: expenses })
+                                        })
                                     })
                                 })
                             })
-                        })
-                        else
+                        } else {
+                            costs = costs ? costs : 0;
+                            sells = sells ? sells : 0;
+                            debt = debt ? debt : 0;
+                            expenses = expenses ? expenses : 0;
                             resolve({ costs: costs, sells: sells, debt: debt, expenses: expenses })
+                        }
                     })
                 })
             })

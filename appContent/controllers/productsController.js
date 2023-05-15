@@ -240,6 +240,8 @@ module.exports.pringAllProducts = () => {
     return new Promise((resolve, reject) => {
         controller.selectAllOrderedBy('products', 'created_at', 'DESC', (r) => {
             resolve(r)
+        }, (r) => {
+            resolve(r)
         })
     })
 }

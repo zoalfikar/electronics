@@ -20,15 +20,21 @@ const comp = {
             e.target.value = null
         },
         pringAll: async function() {
+
             this.products = await controllers.productsController.pringAllProducts();
-            this.autoCumpleteArray = Object.values(this.products.map(p => p.code));
-            let codeChanged = this.codeChanged
-            $("#code").autocomplete({
-                source: this.autoCumpleteArray,
-                select: function(event, ui) {
-                    codeChanged(ui.item.value.toString())
-                }
-            });
+            if (this.products.length !== 0) {
+                this.autoCumpleteArray = Object.values(this.products.map(p => p.code));
+                let codeChanged = this.codeChanged
+                $("#code").autocomplete({
+                    source: this.autoCumpleteArray,
+                    select: function(event, ui) {
+                        codeChanged(ui.item.value.toString())
+                    }
+                });
+            } else {
+                $("#code").attr('placeholder', 'لاتوجد بضائع')
+            }
+
         },
         setInfo: function(p) {
             $('.error').text(null)
