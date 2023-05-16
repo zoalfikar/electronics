@@ -39,9 +39,9 @@ module.exports.claculat = (date, date2) => {
                             expenses = expenses ? expenses : 0;
                             var inv = await this.addInventories({ costs: costs, sells: sells, debt: debt, expenses: expenses, reguler: 1 })
                             controller.update('buying_payments', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' } }, (r1) => {
-                                controller.update('selling_payments', { inventoryId: 1 }, { inventoryId: { v: null, o: 'is' } }, (r2) => {
-                                    controller.update('debt', { inventoryId: 1 }, { inventoryId: { v: null, o: 'is' }, paid: { o: "=", v: 0 } }, (r3) => {
-                                        controller.update('expenses', { inventoryId: 1 }, { inventoryId: { v: null, o: 'is' } }, async(r3) => {
+                                controller.update('selling_payments', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' } }, (r2) => {
+                                    controller.update('debt', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' }, paid: { o: "=", v: 0 } }, (r3) => {
+                                        controller.update('expenses', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' } }, async(r3) => {
                                             resolve({ costs: costs, sells: sells, debt: debt, expenses: expenses })
                                         })
                                     })

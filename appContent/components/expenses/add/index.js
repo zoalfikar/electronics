@@ -46,15 +46,16 @@ const comp = {
             });
         });
         document.addEventListener('keypress', function(e) {
-
-            if ((e.key == 'Enter')) {
+            if (e.key == 'Enter') {
                 e.preventDefault()
-                if ($('.swal-button--confirm').length && (parseInt($('.swal-modal').css('opacity')) == 1))
+                if ($('.swal-button--confirm').length && (parseInt($('.swal-modal').css('opacity')) == 1)) {
                     $('.swal-button--confirm')[0].click()
-                else $('#submit').click()
+                } else {
+                    $('#submit-ep').click()
+                }
             }
-
         })
+
     }
 }
 

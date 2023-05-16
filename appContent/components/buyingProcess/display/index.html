@@ -16,8 +16,14 @@
                 <th :style="`background-color: ${alter?'red':'none'} `"> التكلفة الاجمالية</th>
                 <th>سعر المبيع</th>
                 <th>الوصف</th>
-                <th>تاريخ الادخال</th>
-                <th>تاريخ التعديل</th>
+                <th>
+                    {{!filter ? 'تاريخ الإدخال' : ''}}
+                    <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="date" v-model="created_at">
+                </th>
+                <th>
+                    {{!filter ? 'تاريخ التعديل' : ''}}
+                    <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="date" v-model="updated_at">
+                </th>
             </tr>
         </thead>
         <tbody>

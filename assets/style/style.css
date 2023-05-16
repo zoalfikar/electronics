@@ -128,7 +128,7 @@ form .currency::after {
     color: rgb(99, 93, 93)
 }
 
-button#submit {
+button.submit {
     height: 40px;
     width: 70px;
     color: white;

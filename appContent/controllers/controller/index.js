@@ -101,7 +101,7 @@ module.exports.delet = (tabel, condtions, funcTrue) => {
 }
 module.exports.selectAll = (tabel, funcTrue, funcFail) => {
     var sql = `
-    select * ,DATE_FORMAT(created_at, '%p %H:%i %Y/%m/%d') as created_at , DATE_FORMAT(updated_at, '%p %H:%i %Y/%m/%d') as updated_at  from ${tabel} 
+    select * ,DATE_FORMAT(created_at, '%p %H:%i:%s %Y/%m/%d') as created_at , DATE_FORMAT(updated_at, '%p %H:%i:%s %Y/%m/%d') as updated_at  from ${tabel} 
     `
     con.query(sql, function(err, result) {
         if (err) {
@@ -119,7 +119,7 @@ module.exports.selectAll = (tabel, funcTrue, funcFail) => {
 }
 module.exports.selectAllOrderedBy = (tabel, column, dir, funcTrue, funcFail) => {
     var sql = `
-    select * ,DATE_FORMAT(created_at, '%p %H:%i %Y/%m/%d') as created_at , DATE_FORMAT(updated_at, '%p %H:%i %Y/%m/%d') as updated_at from ${tabel} 
+    select * ,DATE_FORMAT(created_at, '%p %H:%i:%s %Y/%m/%d') as created_at , DATE_FORMAT(updated_at, '%p %H:%i:%s %Y/%m/%d') as updated_at from ${tabel} 
     ORDER BY ${column} ${dir};
     `
     con.query(sql, function(err, result) {

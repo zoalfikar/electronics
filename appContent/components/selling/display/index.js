@@ -7,6 +7,8 @@ const comp = {
             allPrdocucts: null,
             name: null,
             code: null,
+            created_at: null,
+            updated_at: null,
             currentCell: null,
             temoraryCellId: null,
         }
@@ -111,7 +113,7 @@ const comp = {
             }
         },
         updateProductValue: function() {
-            if (this.alter) {
+            if (this.alter && this.sellingProccess) {
                 var proccessId = $(this.currentCell).parents('tr').attr('id');
                 var newValue = $(this.currentCell).children('.input').val();
                 var isSellingPriceCell = $(this.currentCell).hasClass("std")
@@ -193,6 +195,18 @@ const comp = {
                 return p.code == n;
             })
             console.log(this.filterSellingProccess);
+        },
+        created_at: function(n, o) {
+            n = n.substr(0, 10).replaceAll('-', '/');
+            this.filterSellingProccess = this.allSellingProccess.filter((p) => {
+                return p.created_at.substr(-10) == n;
+            })
+        },
+        updated_at: function(n, o) {
+            n = n.substr(0, 10).replaceAll('-', '/');
+            this.filterSellingProccess = this.allSellingProccess.filter((p) => {
+                return p.updated_at.substr(-10) == n;
+            })
         },
         filterSellingProccess: function(n, o) {
             if (n && (n.length > 0)) {

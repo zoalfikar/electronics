@@ -7,6 +7,8 @@ const comp = {
             allPrdocucts: null,
             name: null,
             code: null,
+            created_at: null,
+            updated_at: null,
             currentCell: null,
             temoraryCellId: null,
         }
@@ -156,7 +158,7 @@ const comp = {
             document.removeEventListener('click', this.alterEventHolder)
         },
         updateProcessValue: async function() {
-            if (this.alter) {
+            if (this.alter && this.buyingProcess) {
                 var processtId = $(this.currentCell).parents('tr').attr('id');
                 var newValue = $(this.currentCell).children('.input').val();
                 var isNameCell = $(this.currentCell).hasClass("ntd")
@@ -228,6 +230,18 @@ const comp = {
         code: function(n, o) {
             this.filterBuyingProcess = this.allBuyingProcess.filter((p) => {
                 return p.code == n;
+            })
+        },
+        created_at: function(n, o) {
+            n = n.substr(0, 10).replaceAll('-', '/');
+            this.filterBuyingProcess = this.allBuyingProcess.filter((p) => {
+                return p.created_at.substr(-10) == n;
+            })
+        },
+        updated_at: function(n, o) {
+            n = n.substr(0, 10).replaceAll('-', '/');
+            this.filterBuyingProcess = this.allBuyingProcess.filter((p) => {
+                return p.updated_at.substr(-10) == n;
             })
         },
         filterBuyingProcess: function(n, o) {

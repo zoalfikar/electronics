@@ -6,6 +6,8 @@ const comp = {
             allDebt: null,
             name: null,
             phone: null,
+            created_at: null,
+            updated_at: null,
             currentCell: null,
             temoraryCellId: null,
         }
@@ -17,7 +19,6 @@ const comp = {
     methods: {
         pringAll: async function() {
             var debt = await controllers.expensesAndDebts.allDebts();
-            console.log(debt);
             this.allDebt = debt;
             this.debt = this.allDebt;
         },
@@ -41,7 +42,7 @@ const comp = {
             this.debt = this.debt.filter((bp) => {
                 return bp.id !== id
             });
-            this.alldDebt = this.alldDebt.filter((bp) => {
+            this.allDebt = this.allDebt.filter((bp) => {
                 return bp.id !== id
             });
         },
@@ -75,7 +76,7 @@ const comp = {
             document.removeEventListener('click', this.alterEventHolder)
         },
         updateProcessValue: function() {
-            if (this.alter) {
+            if (this.alter && this.debt) {
                 var debtId = $(this.currentCell).parents('tr').attr('id');
                 var newValue = $(this.currentCell).children('.input').val();
                 var isNameCell = $(this.currentCell).hasClass("ntd")
@@ -176,6 +177,18 @@ const comp = {
                 return p.phoneNumber == n;
             })
         },
+        created_at: function(n, o) {
+            n = n.substr(0, 10).replaceAll('-', '/');
+            this.filterDebt = this.allDebt.filter((p) => {
+                return p.created_at.substr(-10) == n;
+            })
+        },
+        updated_at: function(n, o) {
+            n = n.substr(0, 10).replaceAll('-', '/');
+            this.filterDebt = this.allDebt.filter((p) => {
+                return p.updated_at.substr(-10) == n;
+            })
+        },
         filterDebt: function(n, o) {
             if (n && (n.length > 0)) {
                 this.debt = n;
@@ -188,7 +201,7 @@ const comp = {
         this.pringAll()
         let updateProcessValue = this.updateProcessValue
         document.addEventListener('keypress', function(e) {
-            if (e.key == "Enter") {
+            if ((e.key == "Enter")) {
                 updateProcessValue()
             }
         })

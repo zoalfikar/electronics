@@ -69,14 +69,20 @@ const comp = {
         },
         archive: async function() {
             var inventory = this.inventory
-            var values = {
-                costs: inventory.costs ? inventory.costs : 0,
-                expenses: inventory.expenses ? inventory.expenses : 0,
-                sells: inventory.sells ? inventory.sells : 0,
-                debt: inventory.debt ? inventory.debt : 0,
+            if (inventory) {
+                var values = {
+                    costs: inventory.costs ? inventory.costs : 0,
+                    expenses: inventory.expenses ? inventory.expenses : 0,
+                    sells: inventory.sells ? inventory.sells : 0,
+                    debt: inventory.debt ? inventory.debt : 0,
+                }
+                await controllers.inventories.addInventories(values)
+                var confirm = await swal("تم")
+            } else {
+                swal('لم يتم إجراء جرد')
             }
-            await controllers.inventories.addInventories(values)
-            var confirm = await swal("تم")
+
+
         },
     },
     mounted: function() {
@@ -85,7 +91,7 @@ const comp = {
                 e.preventDefault()
                 if ($('.swal-button--confirm').length && (parseInt($('.swal-modal').css('opacity')) == 1))
                     $('.swal-button--confirm')[0].click()
-                else $('#sell-production').click()
+                else $('#save-inventory').click()
             }
 
         })

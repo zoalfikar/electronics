@@ -5,6 +5,8 @@ const comp = {
             filterExpenses: null,
             allExpenses: null,
             name: null,
+            created_at: null,
+            updated_at: null,
             currentCell: null,
             temoraryCellId: null,
         }
@@ -73,7 +75,7 @@ const comp = {
             document.removeEventListener('click', this.alterEventHolder)
         },
         updateProcessValue: function() {
-            if (this.alter) {
+            if (this.alter && this.expenses) {
                 var ExpensesId = $(this.currentCell).parents('tr').attr('id');
                 var newValue = $(this.currentCell).children('.input').val();
                 var isNameCell = $(this.currentCell).hasClass("ntd")
@@ -126,6 +128,18 @@ const comp = {
                 if ((n !== '') && n) {
                     return p.name.includes(n)
                 }
+            })
+        },
+        created_at: function(n, o) {
+            n = n.substr(0, 10).replaceAll('-', '/');
+            this.filterExpenses = this.allExpenses.filter((p) => {
+                return p.created_at.substr(-10) == n;
+            })
+        },
+        updated_at: function(n, o) {
+            n = n.substr(0, 10).replaceAll('-', '/');
+            this.filterExpenses = this.allExpenses.filter((p) => {
+                return p.updated_at.substr(-10) == n;
             })
         },
         filterExpenses: function(n, o) {

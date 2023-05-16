@@ -137,12 +137,15 @@ const setProcedures = () => {
             drop PROCEDURE if exists updateDeptInventory ;
             CREATE PROCEDURE updateDeptInventory (IN invId INT(11))  
             BEGIN  
-            DECLARE debt DOUBLE;
+            DECLARE debt DOUBLE; 
                 SELECT SUM(totall) INTO debt FROM debt where inventoryId = invId and paid = 0;  
                 IF (debt IS NULL) THEN
                 SET debt = 0;
                 END IF;
                 update inventories set debt = debt where id = invId;
+                IF (debt <= 0) THEN
+                    DELETE FROM inventories where id = invId AND costs <= 0 AND sells <= 0 AND debt <= 0 AND expenses <= 0 ;
+                END IF;  
             END ;
 
             drop PROCEDURE if exists updateCostsInventory ;
@@ -154,6 +157,9 @@ const setProcedures = () => {
                 SET costs = 0;
                 END IF;
                 update inventories set  costs = costs where id = invId;
+                IF (costs <= 0) THEN
+                    DELETE FROM inventories where id = invId AND costs <= 0 and sells <= 0 and debt <= 0 and expenses <= 0 ;
+                END IF;
             END ;
 
 
@@ -166,6 +172,9 @@ const setProcedures = () => {
                 SET sells = 0;
                 END IF;
                 update inventories set  sells = sells  where id = invId;
+                IF (sells <= 0) THEN
+                    DELETE FROM inventories where id = invId AND costs <= 0 and sells <= 0 and debt <= 0 and expenses <= 0 ;
+                END IF;
             END ;
 
 
@@ -178,6 +187,10 @@ const setProcedures = () => {
                 SET expenses = 0;
                 END IF;
                 update inventories set expenses = expenses where id = invId;
+                IF (expenses <= 0) THEN
+                    DELETE FROM inventories where id = invId AND costs <= 0 and sells <= 0 and debt <= 0 and expenses <= 0 ;
+                END IF;
+
             END ;
 
         `;
@@ -221,7 +234,10 @@ const Debt = () => {
         inventoryId int(11),
         paid INT(1) DEFAULT 0  ,
         created_at TIMESTAMP NOT NULL DEFAULT NOW() ,
-        updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE now()
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE now(),
+        CONSTRAINT fk_inventory FOREIGN KEY (inventoryId)  
+        REFERENCES inventories(id)  
+        ON DELETE SET NULL 
         )`;
     con2.query(sql, function(err, result) {
         if (err) throw err;
