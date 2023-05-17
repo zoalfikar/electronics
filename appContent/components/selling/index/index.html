@@ -1,25 +1,25 @@
 <div class="container-index">
     <div class="container-index-element container-input">
         <div class="code-input input-element">
-            <label for="code">الرمز</label>
+            <label style="display: flex; align-items:center ;" for="code">الرمز</label>
             <input id="code" type="text" v-model="code">
             <p class="code-error error "></p>
         </div>
         <div class="quantity-input input-element ">
-            <label for="22">الكمية</label>
+            <label style="display: flex; align-items:center ;" for="22">الكمية</label>
             <input type="number" @click="clearInput($event) " id="quantity" min="1 " v-model="quantity ">
             <p class="quantity-error error "></p>
         </div>
         <div class=" price-input input-element ">
-            <label for="price ">سعر المبيع</label>
+            <label style="display: flex; align-items:center ;" for="price ">سعر المبيع</label>
             <input type="number" :readonly="sellingPriceEdite ? false : true " id="price " min="1 " v-model="sellingPrice " @click="sellingPriceEdite ? clearInput($event) : null ">
-            <span for="price ">ل.س</span>
+            <span for="price">ل.س</span>
             <p class="price-error error "></p>
         </div>
         <div class=" options-input input-element ">
             <button @click=" sellingPriceEdite=!sellingPriceEdite " id="edite-price "> {{sellingPriceEdite?"قفل ":"تحرير "   }}</button>
             <button @click=" sellingPrice=currentProduct ? currentProduct.sellingPrice : null " id="refresh-price ">استعادة  </button>
-            <div class="tottal" style="font-size: 20px;">السعر الكلي : {{tottal}} <span>{{tottal ? 'ل.س':''}}</span></div>
+            <div class="tottal" style="font-size: 20px; display: flex; align-items: center;">السعر الكلي : &nbsp; {{tottal}} &nbsp; <span>{{tottal ? 'ل.س':''}}</span></div>
         </div>
     </div>
     <div class="container-index-element container-info info ">

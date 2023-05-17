@@ -22,26 +22,16 @@ module.exports.writeConfig = (data) => {
     })
 }
 module.exports.readConfig = () => {
-        return new Promise((resolve, reject) => {
-            fs.readFile(path.join(__dirname, 'electronics.confige.txt'), 'utf8', (error, data) => {
-                if (error) {
-                    console.error(error);
-                    throw error;
-                }
-                var json = key1.decrypt(data.toString())
-                json = JSON.parse(json)
-                console.log('reading complete');
-                resolve(json)
-            })
+    return new Promise((resolve, reject) => {
+        fs.readFile(path.join(__dirname, 'electronics.confige.txt'), 'utf8', (error, data) => {
+            if (error) {
+                console.error(error);
+                throw error;
+            }
+            var json = key1.decrypt(data.toString())
+            json = JSON.parse(json)
+            console.log('reading complete');
+            resolve(json)
         })
-    }
-    // var confige = {};
-    // fs.readFile(path.join(__dirname, 'electronics.json'), (error, data) => {
-    //     if (error) {
-    //         console.error(error);
-    //         throw error;
-    //     }
-    //     confige = JSON.parse(data)
-    //     console.log('reading complete');
-    //     this.writeConfig(confige)
-    // })
+    })
+}

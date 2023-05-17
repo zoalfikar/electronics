@@ -28,7 +28,7 @@ const app = Vue.createApp({
                 this.alterPassword = null
             }
         },
-        checkAlterPassword: function() {
+        checkAlterPassword: function(e) {
             if (this.alterPasswordCorrect) {
                 this.alter = true
                 this.alterPassword = '***************'

@@ -180,13 +180,13 @@ const comp = {
         created_at: function(n, o) {
             n = n.substr(0, 10).replaceAll('-', '/');
             this.filterDebt = this.allDebt.filter((p) => {
-                return p.created_at.substr(-10) == n;
+                return p.created_at_formated.substr(-10) == n;
             })
         },
         updated_at: function(n, o) {
             n = n.substr(0, 10).replaceAll('-', '/');
             this.filterDebt = this.allDebt.filter((p) => {
-                return p.updated_at.substr(-10) == n;
+                return p.updated_at_formated.substr(-10) == n;
             })
         },
         filterDebt: function(n, o) {

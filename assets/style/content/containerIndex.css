@@ -37,7 +37,7 @@
 .container-index .price-input span {
     position: absolute;
     left: 30px;
-    padding-top: 3px;
+    padding-top: 10px;
     color: rgb(119, 119, 119);
 }
 

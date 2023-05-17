@@ -18,8 +18,8 @@
                 {{alter ? "الغاء التعديل" : "تعديل"}}
             </button>
             <div id="check-alter-password-groub" style="display: none;">
-                <input type="text" v-model="alterPassword" style="margin:5px ;">
-                <button @click="checkAlterPassword">تحقق</button>
+                <input type="text" v-model="alterPassword" style="margin:5px ;" @keypress.enter="checkAlterPassword">
+                <button @click="()=>{(!alter) ? checkAlterPassword() : 0}">تحقق</button>
             </div>
         </div>
         <div class="title">
@@ -31,7 +31,9 @@
         <div class="navigation">
             <div class="navigation-item">
                 <button id="selling-index" @click="goto('/selling-index' , 'الرئيسية')">الرئيسية</button>
-
+            </div>
+            <div class="navigation-item">
+                <button id="all-products" @click="goto('/all-selling-process','  جدول المبيع')">  عرض جميع عمليات البيع </button>
             </div>
             <div class="navigation-item">
                 <button id="add-buying-process" @click="goto('/buying-process' , 'إضافة شراء')">عملية شراء </button>
@@ -44,9 +46,6 @@
             <div class="navigation-item">
                 <button id="all-products" @click="goto('/all-products',' المنتجات المتاحة ')">  عرض المنتجات </button>
 
-            </div>
-            <div class="navigation-item">
-                <button id="all-products" @click="goto('/all-selling-process','  جدول المبيع')">  عرض جميع عمليات البيع </button>
             </div>
             <div class="navigation-item">
                 <button id="all-products" @click="goto('/add-debt','   إضافة دين')">    إضافة دين جديد </button>

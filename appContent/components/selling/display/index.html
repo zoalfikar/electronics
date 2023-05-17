@@ -17,11 +17,11 @@
                 <th>الوصف</th>
                 <th>
                     {{!filter ? 'تاريخ الإدخال' : ''}}
-                    <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="date" v-model="created_at">
+                    <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="text" onfocus="this.type='date'" onblur="this.type='text'" v-model="created_at" placeholder="تاريخ الادخال">
                 </th>
                 <th>
                     {{!filter ? 'تاريخ التعديل' : ''}}
-                    <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="date" v-model="updated_at">
+                    <input :style="`display: ${filter?'block':'none'} ; width:100% !important`" type="text" onfocus="this.type='date'" onblur="this.type='text'" v-model="updated_at" placeholder="تاريخ التعديل">
                 </th>
             </tr>
         </thead>
@@ -55,8 +55,8 @@
                     <input class="input" style="display: none ; width:100% !important" type="text" :placeholder="`${process.description}`">
 
                 </td>
-                <td>{{process.created_at}}</td>
-                <td>{{process.updated_at}}</td>
+                <td>{{process.created_at_formated}}</td>
+                <td>{{process.updated_at_formated}}</td>
             </tr>
         </tbody>
     </table>
