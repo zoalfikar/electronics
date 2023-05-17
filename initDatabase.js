@@ -201,27 +201,7 @@ const setProcedures = () => {
         setTriggers()
     });
 }
-const inventories = () => {
 
-    var sql = `
-    CREATE TABLE if not exists inventories (
-        id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        costs DOUBLE NOT NULL ,
-        sells DOUBLE NOT NULL ,
-        expenses DOUBLE NOT NULL ,
-        debt DOUBLE NOT NULL ,
-        profit DOUBLE  GENERATED ALWAYS  AS (sells - (costs + expenses + debt)) ,
-        reguler INT(1) DEFAULT 0  ,
-        description TEXT  ,
-        created_at TIMESTAMP NOT NULL DEFAULT NOW() ,
-        updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE now()
-        )`;
-    con2.query(sql, function(err, result) {
-        if (err) throw err;
-        console.log("Table inventories created");
-        setProcedures()
-    });
-}
 const Debt = () => {
 
     var sql = `
@@ -242,7 +222,27 @@ const Debt = () => {
     con2.query(sql, function(err, result) {
         if (err) throw err;
         console.log("Table debt created");
-        inventories()
+        setProcedures()
+    });
+}
+const inventories = () => {
+    var sql = `
+    CREATE TABLE if not exists inventories (
+        id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        costs DOUBLE NOT NULL ,
+        sells DOUBLE NOT NULL ,
+        expenses DOUBLE NOT NULL ,
+        debt DOUBLE NOT NULL ,
+        profit DOUBLE  GENERATED ALWAYS  AS (sells - (costs + expenses + debt)) ,
+        reguler INT(1) DEFAULT 0  ,
+        description TEXT  ,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW() ,
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE now()
+        )`;
+    con2.query(sql, function(err, result) {
+        if (err) throw err;
+        console.log("Table inventories created");
+        Debt()
     });
 }
 const expenses = () => {
@@ -259,8 +259,8 @@ const expenses = () => {
         )`;
     con2.query(sql, function(err, result) {
         if (err) throw err;
-        Debt()
         console.log("Table expenses created");
+        inventories()
     });
 }
 const selling_paymentsTable = () => {
