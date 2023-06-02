@@ -12,7 +12,7 @@
         </div>
         <div class=" price-input input-element ">
             <label style="display: flex; align-items:center ;" for="price ">سعر المبيع</label>
-            <input type="number" :readonly="sellingPriceEdite ? false : true " id="price " min="1 " v-model="sellingPrice " @click="sellingPriceEdite ? clearInput($event) : null ">
+            <input type="number" :readonly="sellingPriceEdite ? false : true " id="price" min="1 " v-model="sellingPrice " @click="sellingPriceEdite ? clearInput($event) : null ">
             <span for="price">ل.س</span>
             <p class="price-error error "></p>
         </div>

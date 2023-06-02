@@ -3,9 +3,9 @@
         <p>سوف يتم ارشفة جميع البيانات الغير مؤرشفة حتى الان</p>
         <p> يمكن حساب التكاليف والربح حسب الوقت الذي تريده لكن لن يتم تعليم البيانات ك بيانات مؤرشفة </p>
         <div><label style="width: 15%; margin: 10px;" for="date-input-from">من تاريخ</label>
-            <input type="datetime-local" id="date-input-from" v-model="date" step=1></div>
+            <input type="datetime-local" id="date-input-from" v-model="date" step=1 required></div>
         <div> <label style="width: 15%;  margin: 10px;" for="date-input-to"> الى تاريخ (حقل اختياري)</label>
-            <input type="datetime-local" id="date-input-to" v-model="date2" step=1></div>
+            <input type="datetime-local" id="date-input-to" v-model="date2" step=1 required></div>
         <button style="margin:40px; margin-top: 10px ;margin-bottom: 10px ;" @click="pringAll(date ,date2)">حسب التاريخ</button>
         <button :disabled="selectMode?false:true" @click="pringAll(null)"> جرد نظامي </button>
     </div>

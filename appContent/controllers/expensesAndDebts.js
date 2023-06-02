@@ -1,4 +1,3 @@
-2
 const controller = require('./controller/index')
 
 module.exports.allDebts = () => {

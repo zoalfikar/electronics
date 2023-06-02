@@ -3,9 +3,13 @@ const productsController = require('./productsController')
 
 module.exports.addInventories = (values) => {
     return new Promise((resolve, reject) => {
-        controller.insert('inventories', values, (r) => {
-            resolve(r)
-        })
+        if ((values.costs > 0) || (values.sells > 0) || (values.debt > 0) || (values.expenses > 0)) {
+            controller.insert('inventories', values, (r) => {
+                resolve(r)
+            })
+        } else {
+            resolve(0)
+        }
     })
 }
 module.exports.claculat = (date, date2) => {
@@ -38,15 +42,23 @@ module.exports.claculat = (date, date2) => {
                             debt = debt ? debt : 0;
                             expenses = expenses ? expenses : 0;
                             var inv = await this.addInventories({ costs: costs, sells: sells, debt: debt, expenses: expenses, reguler: 1 })
-                            controller.update('buying_payments', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' } }, (r1) => {
-                                controller.update('selling_payments', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' } }, (r2) => {
-                                    controller.update('debt', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' }, paid: { o: "=", v: 0 } }, (r3) => {
-                                        controller.update('expenses', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' } }, async(r3) => {
-                                            resolve({ costs: costs, sells: sells, debt: debt, expenses: expenses })
+                            if (inv) {
+                                controller.update('buying_payments', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' } }, (r1) => {
+                                    controller.update('selling_payments', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' } }, (r2) => {
+                                        controller.update('debt', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' }, paid: { o: "=", v: 0 } }, (r3) => {
+                                            controller.update('expenses', { inventoryId: inv.insertId }, { inventoryId: { v: null, o: 'is' } }, async(r3) => {
+                                                resolve({ costs: costs, sells: sells, debt: debt, expenses: expenses })
+                                            })
                                         })
                                     })
                                 })
-                            })
+                            } else {
+                                costs = costs ? costs : 0;
+                                sells = sells ? sells : 0;
+                                debt = debt ? debt : 0;
+                                expenses = expenses ? expenses : 0;
+                                resolve({ costs: costs, sells: sells, debt: debt, expenses: expenses })
+                            }
                         } else {
                             costs = costs ? costs : 0;
                             sells = sells ? sells : 0;

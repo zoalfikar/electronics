@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const jfe = require("json-file-encrypt");
 const path = require('path')
 const fs = require("fs");
@@ -56,6 +56,8 @@ fs.readFile(path.join(__dirname, 'electronics.confige.txt'), 'utf8', async(error
         })
         if (devMode) {
             win.webContents.openDevTools()
+        } else {
+            Menu.setApplicationMenu(null)
         }
         win.loadFile(homaPagePath)
 

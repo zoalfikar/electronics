@@ -201,7 +201,6 @@ const setProcedures = () => {
         setTriggers()
     });
 }
-
 const Debt = () => {
 
     var sql = `

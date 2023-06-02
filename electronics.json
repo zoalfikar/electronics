@@ -1,1 +1,1 @@
-{ "Initialized": "0", "mysql": { "mysqlServerPath": "C:/Program Files/{subPath}", "subPath": "MySQL/MySQL Server {version}/bin/", "service": "MYSQL80", "version": "8.0", "user": "root", "password": "1111" }, "customers": ["BFEBFBFF00020655"], "devMode": "1" }
+{ "Initialized": "0", "mysql": { "mysqlServerPath": "C:/Program Files/{subPath}", "subPath": "MySQL/MySQL Server {version}/bin/", "service": "MYSQL80", "version": "8.0", "user": "root", "password": "1111" }, "customers": ["BFEBFBFF00020655"], "devMode": "0" }

@@ -52,7 +52,7 @@ const comp = {
                             this.deleteProduct(result.productId)
                         }
                     } else {
-                        (swal('لاتوجد كمية كافية لارجاعها'))
+                        await swal('لاتوجد كمية كافية لارجاعها')
                     }
 
                 }
@@ -68,7 +68,7 @@ const comp = {
                     buttons: "تاكيد"
 
                 })
-                if (!newcode) swal('لم يتم ادخال كود')
+                if (!newcode) await swal('لم يتم ادخال كود')
                 else {
                     var prod = await this.setProcessCode(id, newcode)
                     if (prod) this.deleteProcess(id)

@@ -7,7 +7,7 @@ async function init() {
     info = await electronics.readConfig()
     con = mysql.createConnection({
         host: "localhost",
-        user: await info.mysql.user,
+        user: info.mysql.user,
         password: info.mysql.password,
         database: "electronics"
     });

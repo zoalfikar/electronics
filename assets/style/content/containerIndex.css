@@ -45,6 +45,14 @@
     display: none;
 }
 
+.container-index input[type='datetime-local']:invalid::-webkit-datetime-edit {
+    display: none;
+}
+
+.container-index input[type='datetime-local']:valid::-webkit-datetime-edit {
+    display: block;
+}
+
 .container-index .input-element p {
     position: absolute;
     background-color: red;
@@ -70,6 +78,7 @@
 .container-index .options-input button {
     background-color: black;
     color: white;
+    border-radius: 7px;
 }
 
 .container-index .container-info {

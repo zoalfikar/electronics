@@ -116,19 +116,43 @@ const comp = {
                 })
                 if (confirm) {
                     var pid = this.currentProduct.id
-                    this.deleteProduct(pid)
-                    this.products = this.products.filter((prod) => {
-                        return prod.id !== pid;
-                    })
-                    this.resetInfo()
-                    this.code = null
+                    var prodDeleted = await this.deleteProduct(pid)
+                    if (prodDeleted) {
+                        this.products = this.products.filter((prod) => {
+                            return prod.id !== pid;
+                        })
+                        this.resetInfo()
+                        this.code = null
+                    }
                 }
             }
 
         },
         deleteProduct: function(id) {
-            controllers.productsController.deleteProductId(id)
-            swal('تم')
+            return new Promise(async(resolve, reject) => {
+                var password = await swal({
+                    title: "تاكيد",
+                    text: ` 
+                        ادخل كلمة المرور
+                            `,
+                    content: "input",
+                    buttons: "تاكيد"
+                })
+                if (password !== null) {
+                    if (password.toString() == config.alterPassword) {
+                        controllers.productsController.deleteProductId(id)
+                        await swal('تم')
+                        resolve(true)
+                    } else {
+                        await swal('كلمة المرور خاطئة')
+                        this.deleteProduct(id)
+                    }
+                } else {
+                    resolve(false)
+                }
+            })
+
+
         },
     },
     watch: {
@@ -168,16 +192,17 @@ const comp = {
             }
         })
         document.addEventListener('keypress', function(e) {
+
             if (ctrlDown) {
-                if (e.key == 'r' || e.key == 'R' || e.key == "r") {
+                if (e.key == 'r' || e.key == 'R' || e.key == "ٌ") {
                     e.preventDefault()
                     $('#code').focus()
                 }
-                if (e.key == 'q' || e.key == 'Q' || e.key == "ض") {
+                if (e.key == 'q' || e.key == 'Q' || e.key == "َ") {
                     e.preventDefault()
                     $('#quantity').focus()
                 }
-                if (e.key == 's' || e.key == 'S' || e.key == "س") {
+                if (e.key == 'S' || e.key == 's' || e.key == "ٍ") {
                     e.preventDefault()
                     $('#price').focus()
                 }

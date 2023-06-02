@@ -27,6 +27,12 @@ body {
     z-index: 10;
 }
 
+.index-options button {
+    border-radius: 10px;
+    background-color: rgb(54, 49, 49);
+    color: white;
+}
+
 .title h1 {
     color: rgb(94, 77, 77);
     width: 20%;
@@ -53,6 +59,7 @@ body {
 .navigation button {
     width: 100%;
     height: 50px;
+    border-radius: 6px;
 }
 
 .navigation button.active {
