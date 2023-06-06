@@ -60,7 +60,6 @@ fs.readFile(path.join(__dirname, 'electronics.confige.txt'), 'utf8', async(error
             Menu.setApplicationMenu(null)
         }
         win.loadFile(homaPagePath)
-
     }
 
     app.whenReady().then(() => {

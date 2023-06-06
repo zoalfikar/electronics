@@ -15,13 +15,7 @@ async function init() {
 }
 init();
 module.exports.mysqlConect = (sql, func) => {
-    con.query(sql, function(err, result) {
-        if (err) {
-            throw err;
-        };
-        func(result)
-    });
-
+    con.query(sql, func);
 }
 
 module.exports.insert = (tabel, values, funcTrue) => {
@@ -39,8 +33,8 @@ module.exports.insert = (tabel, values, funcTrue) => {
     VALUES 
     (
         ${rightSql.slice(0, -1)}
-    )`
-    con.query(sql, function(err, result) {
+    );`
+    this.mysqlConect(sql, function(err, result) {
         if (err) {
             throw err;
         };
@@ -67,7 +61,7 @@ module.exports.update = (tabel, values, condtions, funcTrue) => {
     set ${leftSql}
     where ${rightSql};
     `;
-    con.query(sql, function(err, result) {
+    this.mysqlConect(sql, function(err, result) {
         if (err) {
             throw err;
         };
@@ -86,9 +80,9 @@ module.exports.delet = (tabel, condtions, funcTrue) => {
     rightSql = rightSql.slice(0, -3)
 
     var sql = ` 
-    DELETE FROM ${tabel} WHERE ${rightSql}
+    DELETE FROM ${tabel} WHERE ${rightSql} ;
     `;
-    con.query(sql, function(err, result) {
+    this.mysqlConect(sql, function(err, result) {
         if (err) {
             throw err;
         };
@@ -101,9 +95,9 @@ module.exports.delet = (tabel, condtions, funcTrue) => {
 }
 module.exports.selectAll = (tabel, funcTrue, funcFail) => {
     var sql = `
-    select * ,DATE_FORMAT(created_at, '%p %h:%i:%s _ %a %Y/%m/%d') as created_at_formated , DATE_FORMAT(updated_at, '%p %h:%i:%s _ %a %Y/%m/%d') as updated_at_formated  from ${tabel} 
+    select * ,DATE_FORMAT(created_at, '%p %h:%i:%s _ %a %Y/%m/%d') as created_at_formated , DATE_FORMAT(updated_at, '%p %h:%i:%s _ %a %Y/%m/%d') as updated_at_formated  from ${tabel} ;
     `
-    con.query(sql, function(err, result) {
+    this.mysqlConect(sql, function(err, result) {
         if (err) {
             throw err;
         };
@@ -122,7 +116,7 @@ module.exports.selectAllOrderedBy = (tabel, column, dir, funcTrue, funcFail) => 
     select * ,DATE_FORMAT(created_at, '%p %h:%i:%s _ %a %Y/%m/%d') as created_at_formated , DATE_FORMAT(updated_at, '%p %h:%i:%s _ %a %Y/%m/%d') as updated_at_formated from ${tabel} 
     ORDER BY ${column} ${dir};
     `
-    con.query(sql, function(err, result) {
+    this.mysqlConect(sql, function(err, result) {
         if (err) {
             throw err;
         };
@@ -147,7 +141,7 @@ module.exports.select = (tabel, values, funcTrue, funcFail) => {
     from ${tabel} 
     WHERE ${innerSql.slice(0, -3)};
     `
-    con.query(sql, function(err, result) {
+    this.mysqlConect(sql, function(err, result) {
         if (err) {
             throw err;
         };
@@ -171,7 +165,7 @@ module.exports.selectWhere = (tabel, condtions, funcTrue) => {
     from ${tabel} 
     WHERE ${innerSql.slice(0, -3)};
     `
-    con.query(sql, function(err, result) {
+    this.mysqlConect(sql, function(err, result) {
         if (err) {
             throw err;
         };
@@ -196,7 +190,7 @@ module.exports.columnSumWhere = (tabel, column, condtions, funcTrue) => {
     from ${tabel} 
     WHERE ${innerSql.slice(0, -3)};
     `
-        con.query(sql, function(err, result) {
+        this.mysqlConect(sql, function(err, result) {
             if (err) {
                 throw err;
             };
@@ -218,7 +212,7 @@ module.exports.columnSumWhere = (tabel, column, condtions, funcTrue) => {
     //     from ${tabel} 
     //     WHERE ${innerSql.slice(0, -3)};
     //     `
-    //     con.query(sql, function(err, result) {
+    //     this.mysqlConect(sql, function(err, result) {
     //         if (err) {
     //             throw err;
     //         };
@@ -235,7 +229,7 @@ module.exports.selectId = (tabel, value, funcTrue, funcFail) => {
     WHERE id = ${value} 
     LIMIT 1;
     `
-    con.query(sql, function(err, result) {
+    this.mysqlConect(sql, function(err, result) {
         if (err) {
             throw err;
         };
