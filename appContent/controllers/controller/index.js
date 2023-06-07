@@ -114,7 +114,7 @@ module.exports.selectAll = (tabel, funcTrue, funcFail) => {
 module.exports.selectAllOrderedBy = (tabel, column, dir, funcTrue, funcFail) => {
     var sql = `
     select * ,DATE_FORMAT(created_at, '%p %h:%i:%s _ %a %Y/%m/%d') as created_at_formated , DATE_FORMAT(updated_at, '%p %h:%i:%s _ %a %Y/%m/%d') as updated_at_formated from ${tabel} 
-    ORDER BY ${column} ${dir};
+    ORDER BY ${column} ${dir ? dir : 'ASC' };
     `
     this.mysqlConect(sql, function(err, result) {
         if (err) {
@@ -131,6 +131,7 @@ module.exports.selectAllOrderedBy = (tabel, column, dir, funcTrue, funcFail) => 
     });
 
 }
+
 module.exports.select = (tabel, values, funcTrue, funcFail) => {
     var innerSql = ''
     for (const [key, value] of Object.entries(values)) {
@@ -158,12 +159,12 @@ module.exports.select = (tabel, values, funcTrue, funcFail) => {
 module.exports.selectWhere = (tabel, condtions, funcTrue) => {
     var innerSql = ''
     for (const [key, value] of Object.entries(condtions)) {
-        innerSql = innerSql + ` ${key} ${value.o} ${ (typeof value.v === 'string')? "\"" +value.v +"\" AND" : value.v+' AND' }`
+        innerSql = innerSql + `${value.r ? value.r : 'AND '} ${key} ${value.o} ${ (typeof value.v === 'string')? "\"" +value.v +"\"" : value.v }`
     }
     var sql = `
     select * 
     from ${tabel} 
-    WHERE ${innerSql.slice(0, -3)};
+    WHERE ${innerSql.slice(3)};
     `
     this.mysqlConect(sql, function(err, result) {
         if (err) {
@@ -180,15 +181,15 @@ module.exports.columnSumWhere = (tabel, column, condtions, funcTrue) => {
         for (const [key, value] of Object.entries(condtions)) {
             if (Array.isArray(value))
                 value.forEach(v => {
-                    innerSql = innerSql + ` ${key} ${v.o} ${ (typeof v.v === 'string')? "\"" +v.v +"\" AND" : v.v+' AND' }`
+                    innerSql = innerSql + `${v.r ? v.r : 'AND '} ${key} ${v.o} ${ (typeof v.v === 'string')? "\"" +v.v +"\"" : v.v }`
                 });
             else
-                innerSql = innerSql + ` ${key} ${value.o} ${ (typeof value.v === 'string')? "\"" +value.v +"\" AND" : value.v+' AND' }`
+                innerSql = innerSql + `${value.r ? value.r : 'AND '} ${key} ${value.o} ${ (typeof value.v === 'string')? "\"" +value.v +"\"" : value.v }`
         }
         var sql = `
     select SUM(${column} ) AS sum
     from ${tabel} 
-    WHERE ${innerSql.slice(0, -3)};
+    WHERE ${innerSql.slice(3)};
     `
         this.mysqlConect(sql, function(err, result) {
             if (err) {
