@@ -1,40 +1,40 @@
 {
-    "name": "electronics",
-    "version": "1.0.0",
-    "productName": "elecrtonics",
-    "description": "app to manage electronics store",
-    "main": "main.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "electron-forge start",
-        "package": "electron-forge package",
-        "make": "electron-forge make"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/zoalfikar/elecrtonics.git"
-    },
-    "keywords": [
-        "electronics"
-    ],
-    "author": "zs",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/zoalfikar/elecrtonics/issues"
-    },
-    "homepage": "https://github.com/zoalfikar/elecrtonics#readme",
-    "dependencies": {
-        "electron-squirrel-startup": "^1.0.0",
-        "json-file-encrypt": "^2.1.2",
-        "mysql": "^2.18.1",
-        "vue": "^3.2.47"
-    },
-    "devDependencies": {
-        "@electron-forge/cli": "^6.1.1",
-        "@electron-forge/maker-deb": "^6.1.1",
-        "@electron-forge/maker-rpm": "^6.1.1",
-        "@electron-forge/maker-squirrel": "^6.1.1",
-        "@electron-forge/maker-zip": "^6.1.1",
-        "electron": "^20.3.12"
-    }
+  "name": "electronics",
+  "version": "1.0.0",
+  "productName": "elecrtonics",
+  "description": "app to manage electronics store",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zoalfikar/elecrtonics.git"
+  },
+  "keywords": [
+    "electronics"
+  ],
+  "author": "zs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zoalfikar/elecrtonics/issues"
+  },
+  "homepage": "https://github.com/zoalfikar/elecrtonics#readme",
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "json-file-encrypt": "^2.1.2",
+    "mysql": "^2.18.1",
+    "vue": "^3.2.47"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/maker-deb": "^6.1.1",
+    "@electron-forge/maker-rpm": "^6.1.1",
+    "@electron-forge/maker-squirrel": "^6.1.1",
+    "@electron-forge/maker-zip": "^6.1.1",
+    "electron": "^20.3.12"
+  }
 }

@@ -52,3 +52,17 @@ test("index columnSumWhere", () => {
     expect(spyMysqlConect.mock.calls[i = i + 1][0].toLowerCase().replace(/\s/g, '')).toEqual("select SUM(column)AS sum from table WHERE name = \"ali\" AND salary >= 1000 OR salary < 500  ; ".toLowerCase().replace(/\s/g, ''));
     expect(spyMysqlConect.mock.calls.length).toBe(i + 1)
 });
+
+test("index uniqeColumn real data 2", (done) => {
+    const mockCallback = jest.fn(() => {
+        console.log("uniqe");
+        expect(mockCallback.mock.calls.length).toBe(1)
+        done();
+    });
+    const mockCallback2 = jest.fn(() => {
+        console.log("not uniqe");
+        expect(mockCallback2.mock.calls.length).toBe(0)
+        done();
+    });
+    controller.uniqeColumn("debt", "phoneNumber", 66, mockCallback, mockCallback2)
+});
