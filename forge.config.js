@@ -1,6 +1,11 @@
 module.exports = {
     packagerConfig: {
-        icon: "./icon"
+        icon: "./icon",
+         ignore: [
+            "^(\/test$)",
+            "/electronics.json",
+            "/rewriteConfig.js"
+        ]
     },
     rebuildConfig: {},
     makers: [{
